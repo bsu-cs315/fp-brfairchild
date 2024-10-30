@@ -4,15 +4,16 @@ extends CharacterBody2D
 @export var focus_speed := 175
 @export var tilt_amount := 10.0
 @export var bullet_scene: PackedScene
-@export var bullet_offset: float = 80.0
-@export var shoot_delay: float = 0.05  # Delay between shots in seconds
+@export var bullet_offset := 80.0
+@export var shoot_delay := 0.05
 
 @onready var player_sprite = $AnimatedSprite2D
 
-var shoot_timer: float = 0.0  # Timer to track shooting delay
+var shoot_timer := 0.0
+
 
 func _process(delta: float):
-	shoot_timer -= delta  # Decrease the timer by delta time
+	shoot_timer -= delta
 
 	var direction = Vector2(
 		Input.get_action_strength("move_right") - Input.get_action_strength("move_left"),
@@ -33,10 +34,9 @@ func _process(delta: float):
 	position.x = clamp(position.x, 0, screen_size.x)
 	position.y = clamp(position.y, 0, screen_size.y)
 
-	# Spawn bullet if shoot button is pressed and shoot timer allows it
 	if Input.is_action_pressed("shoot") and shoot_timer <= 0:
 		spawn_bullet()
-		shoot_timer = shoot_delay  # Reset the timer after shooting
+		shoot_timer = shoot_delay
 
 
 func spawn_bullet():
