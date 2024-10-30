@@ -1,8 +1,9 @@
 extends CharacterBody2D
 
-@export var speed: float = 425
-@export var focus_speed: float = 175
-@export var tilt_amount: float = 10.0
+@export var speed := 425
+@export var focus_speed := 175
+@export var tilt_amount := 10.0
+@onready var player_sprite = $AnimatedSprite2D
 
 
 func _process(_delta: float):
@@ -17,9 +18,9 @@ func _process(_delta: float):
 	move_and_slide()
 	
 	if direction.y != 0:
-		$AnimatedSprite2D.rotation_degrees = direction.y * tilt_amount
+		player_sprite.rotation_degrees = direction.y * tilt_amount
 	else:
-		$AnimatedSprite2D.rotation_degrees = lerp(float($AnimatedSprite2D.rotation_degrees), 0.0, 0.1)
+		player_sprite.rotation_degrees = lerp(float(player_sprite.rotation_degrees), 0.0, 0.1)
 
 	var screen_size = get_viewport_rect().size
 	position.x = clamp(position.x, 0, screen_size.x)
