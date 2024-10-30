@@ -21,6 +21,10 @@ window/size/viewport_width=1280
 window/size/viewport_height=720
 window/size/resizable=false
 
+[global_group]
+
+player="Group the player is located in."
+
 [input]
 
 move_right={
