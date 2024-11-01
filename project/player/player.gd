@@ -61,6 +61,7 @@ func _process(delta: float):
 	position.y = clamp(position.y, 0, screen_size.y)
 
 	if Input.is_action_pressed("shoot") and shoot_timer <= 0:
+		$Bullet1Sound.play()
 		spawn_bullet()
 		shoot_timer = shoot_delay
 		

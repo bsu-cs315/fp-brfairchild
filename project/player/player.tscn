@@ -1,9 +1,25 @@
-[gd_scene load_steps=15 format=3 uid="uid://cpko1hrbwgkfu"]
+[gd_scene load_steps=16 format=3 uid="uid://cpko1hrbwgkfu"]
 
 [ext_resource type="Texture2D" uid="uid://blkhxfl0hn5pf" path="res://player/player_spritesheet.png" id="1_2r30b"]
 [ext_resource type="Script" path="res://player/player.gd" id="1_tcj71"]
 [ext_resource type="Texture2D" uid="uid://ogu5imggn4b2" path="res://player/player_focus_texture_2.png" id="2_n83nw"]
 [ext_resource type="Texture2D" uid="uid://c4bep5d6boi7l" path="res://player/player_focus_texture_1.png" id="4_l4wj8"]
+[ext_resource type="AudioStream" uid="uid://du7xwo06q33vh" path="res://player_bullet/player_bullet_1_sound.wav" id="5_hb7u6"]
+
+[sub_resource type="Animation" id="Animation_5ms13"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
 
 [sub_resource type="Animation" id="Animation_1lx3y"]
 resource_name = "focus_anm"
@@ -20,21 +36,6 @@ tracks/0/keys = {
 "transitions": PackedFloat32Array(1, 1),
 "update": 0,
 "values": [0.0, 6.28319]
-}
-
-[sub_resource type="Animation" id="Animation_5ms13"]
-length = 0.001
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath(".:rotation")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [0.0]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_6a5ck"]
@@ -115,3 +116,7 @@ shape = SubResource("CircleShape2D_oj6cy")
 [node name="PlayerFocusTexture1" type="Sprite2D" parent="."]
 position = Vector2(0, -2)
 texture = ExtResource("4_l4wj8")
+
+[node name="Bullet1Sound" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("5_hb7u6")
+volume_db = -10.0
