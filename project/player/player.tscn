@@ -1,7 +1,47 @@
-[gd_scene load_steps=10 format=3 uid="uid://cpko1hrbwgkfu"]
+[gd_scene load_steps=15 format=3 uid="uid://cpko1hrbwgkfu"]
 
 [ext_resource type="Texture2D" uid="uid://blkhxfl0hn5pf" path="res://player/player_spritesheet.png" id="1_2r30b"]
 [ext_resource type="Script" path="res://player/player.gd" id="1_tcj71"]
+[ext_resource type="Texture2D" uid="uid://ogu5imggn4b2" path="res://player/player_focus_texture_2.png" id="2_n83nw"]
+[ext_resource type="Texture2D" uid="uid://c4bep5d6boi7l" path="res://player/player_focus_texture_1.png" id="4_l4wj8"]
+
+[sub_resource type="Animation" id="Animation_1lx3y"]
+resource_name = "focus_anm"
+length = 5.0
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [0.0, 6.28319]
+}
+
+[sub_resource type="Animation" id="Animation_5ms13"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_6a5ck"]
+_data = {
+"RESET": SubResource("Animation_5ms13"),
+"focus_anm": SubResource("Animation_1lx3y")
+}
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_ty5ka"]
 atlas = ExtResource("1_2r30b")
@@ -52,6 +92,17 @@ radius = 12.0
 [node name="Player" type="CharacterBody2D"]
 script = ExtResource("1_tcj71")
 
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+root_node = NodePath("../PlayerFocusTexture2")
+libraries = {
+"": SubResource("AnimationLibrary_6a5ck")
+}
+autoplay = "focus_anm"
+
+[node name="PlayerFocusTexture2" type="Sprite2D" parent="."]
+position = Vector2(0, -2)
+texture = ExtResource("2_n83nw")
+
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." groups=["player"]]
 position = Vector2(-17, 0)
 sprite_frames = SubResource("SpriteFrames_i8n27")
@@ -60,3 +111,7 @@ frame_progress = 0.205933
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_oj6cy")
+
+[node name="PlayerFocusTexture1" type="Sprite2D" parent="."]
+position = Vector2(0, -2)
+texture = ExtResource("4_l4wj8")

@@ -8,6 +8,8 @@ extends CharacterBody2D
 @export var shoot_delay := 0.05
 @export var bullet_pool_size := 45
 
+@onready var focus_sprite1 = $PlayerFocusTexture2
+@onready var focus_sprite2 = $PlayerFocusTexture1
 @onready var player_sprite = $AnimatedSprite2D
 
 var shoot_timer := 0.0
@@ -16,6 +18,8 @@ var active_bullets: Array[Node2D] = []
 
 
 func _ready():
+	focus_sprite1.visible = false
+	focus_sprite2.visible = false
 	call_deferred("_initialize_bullet_pool")
 
 
@@ -38,6 +42,13 @@ func _process(delta: float):
 	var current_speed = focus_speed if Input.is_action_pressed("focus") else speed
 	velocity = direction * current_speed
 	
+	if Input.is_action_pressed("focus"):
+		focus_sprite1.visible = true
+		focus_sprite2.visible = true
+	else:
+		focus_sprite1.visible = false
+		focus_sprite2.visible = false
+
 	move_and_slide()
 
 	if direction.y != 0:
@@ -52,6 +63,7 @@ func _process(delta: float):
 	if Input.is_action_pressed("shoot") and shoot_timer <= 0:
 		spawn_bullet()
 		shoot_timer = shoot_delay
+		
 	for bullet in active_bullets:
 		if is_bullet_off_screen(bullet):
 			recycle_bullet(bullet)
