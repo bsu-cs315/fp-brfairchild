@@ -1,0 +1,39 @@
+[gd_scene load_steps=6 format=3 uid="uid://bgsvejlihua58"]
+
+[ext_resource type="Texture2D" uid="uid://bn306l45np3cm" path="res://enemy_type1/enemy_type1_texture.png" id="1_rsxos"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_q5xvc"]
+atlas = ExtResource("1_rsxos")
+region = Rect2(0, 0, 63, 70)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_estpy"]
+atlas = ExtResource("1_rsxos")
+region = Rect2(63, 0, 61, 70)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_tqpon"]
+atlas = ExtResource("1_rsxos")
+region = Rect2(123, 0, 60, 70)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_ox71v"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_q5xvc")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_estpy")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_tqpon")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[node name="EnemyType1" type="Node2D"]
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_ox71v")
+autoplay = "default"
+frame_progress = 0.898005
