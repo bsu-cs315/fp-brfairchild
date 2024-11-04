@@ -1,12 +1,19 @@
-[gd_scene load_steps=3 format=3 uid="uid://dspldn353hqiq"]
+[gd_scene load_steps=5 format=3 uid="uid://dspldn353hqiq"]
 
+[ext_resource type="Script" path="res://level1/bullet_pool.gd" id="1_el27k"]
 [ext_resource type="PackedScene" uid="uid://cpko1hrbwgkfu" path="res://player/player.tscn" id="1_ulg3c"]
+[ext_resource type="PackedScene" uid="uid://rnr4fe1n2lr5" path="res://enemy_type1/enemy_bullet1.tscn" id="2_bdr76"]
 [ext_resource type="PackedScene" uid="uid://bgsvejlihua58" path="res://enemy_type1/enemy_type1.tscn" id="2_ig40w"]
 
 [node name="Level1" type="Node2D"]
 
+[node name="BulletPool" type="Node2D" parent="."]
+script = ExtResource("1_el27k")
+bullet_scene = ExtResource("2_bdr76")
+
 [node name="Player" parent="." instance=ExtResource("1_ulg3c")]
 position = Vector2(232, 332)
 
-[node name="EnemyType1" parent="." instance=ExtResource("2_ig40w")]
-position = Vector2(641, 357)
+[node name="EnemyType1" parent="." node_paths=PackedStringArray("bullet_pool") instance=ExtResource("2_ig40w")]
+position = Vector2(790, 321)
+bullet_pool = NodePath("../BulletPool")

@@ -103,10 +103,12 @@ libraries = {
 autoplay = "focus_anm"
 
 [node name="PlayerFocusTexture2" type="Sprite2D" parent="."]
+z_index = -1
 position = Vector2(0, -2)
 texture = ExtResource("2_n83nw")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+z_index = -1
 position = Vector2(-17, 0)
 sprite_frames = SubResource("SpriteFrames_i8n27")
 autoplay = "default"

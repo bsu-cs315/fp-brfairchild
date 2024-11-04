@@ -1,5 +1,6 @@
-[gd_scene load_steps=6 format=3 uid="uid://bgsvejlihua58"]
+[gd_scene load_steps=7 format=3 uid="uid://bgsvejlihua58"]
 
+[ext_resource type="Script" path="res://enemy_type1/enemy_type_1.gd" id="1_br1wc"]
 [ext_resource type="Texture2D" uid="uid://bn306l45np3cm" path="res://enemy_type1/enemy_type1_texture.png" id="1_rsxos"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_q5xvc"]
@@ -32,8 +33,14 @@ animations = [{
 }]
 
 [node name="EnemyType1" type="Node2D"]
+script = ExtResource("1_br1wc")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_ox71v")
 autoplay = "default"
-frame_progress = 0.898005
+frame_progress = 0.25735
+
+[node name="Timer" type="Timer" parent="."]
+autostart = true
+
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
