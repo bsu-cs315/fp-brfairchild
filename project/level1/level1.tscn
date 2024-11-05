@@ -1,19 +1,54 @@
-[gd_scene load_steps=5 format=3 uid="uid://dspldn353hqiq"]
+[gd_scene load_steps=11 format=3 uid="uid://dspldn353hqiq"]
 
-[ext_resource type="Script" path="res://level1/bullet_pool.gd" id="1_el27k"]
+[ext_resource type="Script" path="res://level1/level_1.gd" id="1_hh4fe"]
 [ext_resource type="PackedScene" uid="uid://cpko1hrbwgkfu" path="res://player/player.tscn" id="1_ulg3c"]
-[ext_resource type="PackedScene" uid="uid://rnr4fe1n2lr5" path="res://enemy_type1/enemy_bullet1.tscn" id="2_bdr76"]
 [ext_resource type="PackedScene" uid="uid://bgsvejlihua58" path="res://enemy_type1/enemy_type1.tscn" id="2_ig40w"]
+[ext_resource type="PackedScene" uid="uid://b55qe2p1glsrc" path="res://level1/bullet_pool.tscn" id="3_wfuy1"]
+[ext_resource type="Texture2D" uid="uid://cxlwcbrf4c6vs" path="res://level1/particles.png" id="5_3422w"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_icwns"]
+sky_top_color = Color(0.226843, 0.283943, 0.536665, 1)
+sky_horizon_color = Color(0, 0.498651, 0.821639, 1)
+ground_bottom_color = Color(0.160784, 0, 0.384314, 1)
+ground_horizon_color = Color(0, 0.498039, 0.823529, 1)
+
+[sub_resource type="Sky" id="Sky_norvn"]
+sky_material = SubResource("ProceduralSkyMaterial_icwns")
+
+[sub_resource type="Environment" id="Environment_2try5"]
+background_mode = 2
+sky = SubResource("Sky_norvn")
+volumetric_fog_emission = Color(0.294118, 0.0784314, 0.278431, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_nhajv"]
+transparency = 1
+albedo_texture = ExtResource("5_3422w")
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_73euj"]
+material = SubResource("StandardMaterial3D_nhajv")
 
 [node name="Level1" type="Node2D"]
+script = ExtResource("1_hh4fe")
+Enemy = ExtResource("2_ig40w")
 
-[node name="BulletPool" type="Node2D" parent="."]
-script = ExtResource("1_el27k")
-bullet_scene = ExtResource("2_bdr76")
+[node name="Background" type="Camera3D" parent="."]
+environment = SubResource("Environment_2try5")
+
+[node name="BulletPool" parent="." instance=ExtResource("3_wfuy1")]
 
 [node name="Player" parent="." instance=ExtResource("1_ulg3c")]
 position = Vector2(232, 332)
 
-[node name="EnemyType1" parent="." node_paths=PackedStringArray("bullet_pool") instance=ExtResource("2_ig40w")]
-position = Vector2(790, 321)
-bullet_pool = NodePath("../BulletPool")
+[node name="SpawnTimer" type="Timer" parent="."]
+wait_time = 2.0
+
+[node name="CPUParticles3D" type="CPUParticles3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.571702, -0.820461, 0, 0.820461, 0.571702, 0, 0, -3.25322)
+amount = 20
+mesh = SubResource("PlaneMesh_73euj")
+emission_shape = 1
+emission_sphere_radius = 14.8
+direction = Vector3(0, 0, 0)
+gravity = Vector3(-1, 0, 0)
+
+[connection signal="timeout" from="SpawnTimer" to="." method="_on_respawn_timer_timeout"]

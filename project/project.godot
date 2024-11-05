@@ -25,6 +25,9 @@ window/per_pixel_transparency/allowed=true
 [global_group]
 
 player="Group the player is located in."
+enemy=""
+enemy_character=""
+player_bullet=""
 
 [input]
 

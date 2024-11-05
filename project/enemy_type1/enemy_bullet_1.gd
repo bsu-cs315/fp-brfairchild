@@ -1,6 +1,6 @@
 extends Node2D
 
-@export var speed: float = 400.0
+@export var speed: float = 350.0
 var direction: Vector2
 var bullet_pool: Node
 
@@ -25,6 +25,7 @@ func _process(delta: float):
 func is_out_of_bounds() -> bool:
 	var screen_size = get_viewport().size
 	return position.x < 0 or position.x > screen_size.x or position.y < 0 or position.y > screen_size.y
+	
 
 
 func reset_bullet():

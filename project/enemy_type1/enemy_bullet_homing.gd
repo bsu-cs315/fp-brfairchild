@@ -23,7 +23,6 @@ func _process(delta: float):
 			curve_attempts += 1
 			if curve_attempts >= max_curves:
 				tracking = false
-
 	position += direction * speed * delta
 
 	if is_out_of_bounds():

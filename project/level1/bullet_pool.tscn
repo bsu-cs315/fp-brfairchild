@@ -1,0 +1,9 @@
+[gd_scene load_steps=3 format=3 uid="uid://b55qe2p1glsrc"]
+
+[ext_resource type="Script" path="res://level1/bullet_pool.gd" id="1_wep53"]
+[ext_resource type="PackedScene" uid="uid://rnr4fe1n2lr5" path="res://enemy_type1/enemy_bullet1.tscn" id="2_y42k7"]
+
+[node name="BulletPool" type="Node2D"]
+script = ExtResource("1_wep53")
+bullet_scene = ExtResource("2_y42k7")
+pool_size = 250

@@ -6,13 +6,13 @@
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_gap6r"]
 size = Vector2(41, 14)
 
-[node name="EnemyBullet1" type="Area2D"]
+[node name="EnemyBullet1" type="Area2D" groups=["enemy"]]
 script = ExtResource("1_vkf2k")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." groups=["enemy"]]
 position = Vector2(-1.5, 0)
 shape = SubResource("RectangleShape2D_gap6r")
 
-[node name="EnemyBullet1Texture" type="Sprite2D" parent="."]
+[node name="EnemyBullet1Texture" type="Sprite2D" parent="." groups=["enemy"]]
 scale = Vector2(0.78, 0.636364)
 texture = ExtResource("2_dkyo2")

@@ -20,7 +20,6 @@ func spawn_bullet(spawn_position: Vector2):
 	
 	if player_position == null:
 		return
-
 	var direction = (player_position - spawn_position).normalized()
 	for bullet in bullets:
 		if !bullet.visible:

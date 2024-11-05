@@ -1,4 +1,4 @@
-[gd_scene load_steps=4 format=3 uid="uid://dmfv5o885at1c"]
+[gd_scene load_steps=5 format=3 uid="uid://dmfv5o885at1c"]
 
 [ext_resource type="Script" path="res://player_bullet/player_bullet_1.gd" id="1_72tcw"]
 [ext_resource type="Texture2D" uid="uid://0mwah06eg472" path="res://player_bullet/player_bullet_1.png" id="2_r0niq"]
@@ -6,13 +6,26 @@
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_pkfw8"]
 size = Vector2(33, 59)
 
-[node name="PlayerBullet1" type="Area2D"]
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_2cdhi"]
+size = Vector2(25, 59)
+
+[node name="PlayerBullet1" type="Area2D" groups=["player_bullet"]]
+collision_layer = 256
+collision_mask = 256
 script = ExtResource("1_72tcw")
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
+[node name="Sprite2D" type="Sprite2D" parent="." groups=["player_bullet"]]
 position = Vector2(-18, 0)
 texture = ExtResource("2_r0niq")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." groups=["player_bullet"]]
 position = Vector2(-1.5, -0.5)
 shape = SubResource("RectangleShape2D_pkfw8")
+
+[node name="Hitbox" type="Area2D" parent="." groups=["player_bullet"]]
+
+[node name="HitboxArea" type="CollisionShape2D" parent="Hitbox" groups=["player_bullet"]]
+position = Vector2(2.5, -0.5)
+shape = SubResource("RectangleShape2D_2cdhi")
+
+[connection signal="area_entered" from="Hitbox" to="." method="_on_hitbox_area_entered"]

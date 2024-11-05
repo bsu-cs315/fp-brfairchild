@@ -21,6 +21,7 @@ func _ready():
 	focus_sprite1.visible = false
 	focus_sprite2.visible = false
 	call_deferred("_initialize_bullet_pool")
+	
 
 
 func _initialize_bullet_pool():
@@ -29,11 +30,12 @@ func _initialize_bullet_pool():
 		bullet.visible = false
 		bullet_pool.append(bullet)
 		get_parent().add_child(bullet)
+		bullet.connect("bullet_hit", Callable(self, "_on_bullet_collided"))
+		
 
 
 func _process(delta: float):
 	shoot_timer -= delta
-
 	var direction = Vector2(
 		Input.get_action_strength("move_right") - Input.get_action_strength("move_left"),
 		Input.get_action_strength("move_down") - Input.get_action_strength("move_up")
@@ -48,7 +50,6 @@ func _process(delta: float):
 	else:
 		focus_sprite1.visible = false
 		focus_sprite2.visible = false
-
 	move_and_slide()
 
 	if direction.y != 0:
@@ -79,6 +80,10 @@ func spawn_bullet():
 	else:
 		pass
 
+func _on_bullet_collided(bullet: Node2D):
+	print("ow")
+	recycle_bullet(bullet)
+
 
 func recycle_bullet(bullet: Node2D):
 	bullet.visible = false
@@ -91,3 +96,8 @@ func is_bullet_off_screen(bullet: Node2D) -> bool:
 	var screen_size = get_viewport_rect().size
 	return (bullet.position.x < 0 or bullet.position.x > screen_size.x or
 			bullet.position.y < 0 or bullet.position.y > screen_size.y)
+
+
+func _on_hitbox_area_entered(area: Area2D) -> void:
+	if area.is_in_group("enemy"):
+		queue_free()

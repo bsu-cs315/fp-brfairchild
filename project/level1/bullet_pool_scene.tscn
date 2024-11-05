@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://ctu23cbe2qged"]
+
+[ext_resource type="Script" path="res://level1/bullet_pool.gd" id="1_ceml3"]
+
+[node name="BulletPoolScene" type="Node2D"]
+script = ExtResource("1_ceml3")
