@@ -1,20 +1,93 @@
-[gd_scene load_steps=3 format=3 uid="uid://drky7bjopqte0"]
+[gd_scene load_steps=9 format=3 uid="uid://drky7bjopqte0"]
 
 [ext_resource type="Script" path="res://title/title.gd" id="1_bdvph"]
+[ext_resource type="Texture2D" uid="uid://d380bwc2845ib" path="res://title/title_background_texture.png" id="2_gnffr"]
+[ext_resource type="Shader" path="res://title/arrow_scroll.gdshader" id="2_r4jq0"]
+[ext_resource type="Texture2D" uid="uid://con1jckxgctxl" path="res://title/title_scroll_texture_bottom.png" id="3_f3mir"]
+
+[sub_resource type="Curve" id="Curve_i87sl"]
+max_value = 5.0
+_data = [Vector2(0.00664452, 5), 0.0, 0.0, 0, 0, Vector2(0.574751, 0), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="Gradient" id="Gradient_s7dlc"]
+offsets = PackedFloat32Array(0, 0.461538)
+colors = PackedColorArray(0.90625, 0.0778809, 0.776817, 1, 0.75, 0.0527344, 0.199814, 1)
 
 [sub_resource type="Theme" id="Theme_ecjw4"]
 default_font_size = 50
 
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_k6fvq"]
+shader = ExtResource("2_r4jq0")
+shader_parameter/scroll_speed = 0.1
+shader_parameter/texture = ExtResource("3_f3mir")
+
 [node name="Title" type="Node2D"]
 script = ExtResource("1_bdvph")
 
+[node name="TextureRect" type="TextureRect" parent="."]
+offset_right = 1280.0
+offset_bottom = 720.0
+texture = ExtResource("2_gnffr")
+
+[node name="CPUParticles2D" type="CPUParticles2D" parent="."]
+position = Vector2(648, 26)
+amount = 15
+lifetime = 2.0
+speed_scale = 0.2
+fixed_fps = 60
+emission_shape = 3
+emission_rect_extents = Vector2(720, 1)
+angular_velocity_min = 360.0
+angular_velocity_max = 720.0
+scale_amount_max = 5.0
+scale_amount_curve = SubResource("Curve_i87sl")
+color_ramp = SubResource("Gradient_s7dlc")
+
+[node name="CPUParticles2D2" type="CPUParticles2D" parent="."]
+position = Vector2(599, 661)
+amount = 15
+lifetime = 2.0
+speed_scale = 0.2
+fixed_fps = 60
+emission_shape = 3
+emission_rect_extents = Vector2(720, 1)
+gravity = Vector2(0, -980)
+angular_velocity_min = 360.0
+angular_velocity_max = 720.0
+scale_amount_max = 5.0
+scale_amount_curve = SubResource("Curve_i87sl")
+color_ramp = SubResource("Gradient_s7dlc")
+
 [node name="Button" type="Button" parent="."]
 offset_left = -6.0
-offset_top = 477.0
+offset_top = 488.0
 offset_right = 257.0
-offset_bottom = 554.0
-rotation = -0.216742
+offset_bottom = 565.0
+rotation = -0.055658
 theme = SubResource("Theme_ecjw4")
 text = "Play Game"
+
+[node name="ArrowsLeft" type="TextureRect" parent="."]
+material = SubResource("ShaderMaterial_k6fvq")
+offset_left = -24.0
+offset_top = 2.0
+offset_right = 1284.0
+offset_bottom = 97.0
+rotation = -0.0569409
+texture = ExtResource("3_f3mir")
+expand_mode = 1
+stretch_mode = 1
+
+[node name="ArrowsRight" type="TextureRect" parent="."]
+material = SubResource("ShaderMaterial_k6fvq")
+offset_left = 1303.0
+offset_top = 990.0
+offset_right = 2611.0
+offset_bottom = 1395.0
+rotation = -3.19607
+texture = ExtResource("3_f3mir")
+expand_mode = 1
+stretch_mode = 1
 
 [connection signal="pressed" from="Button" to="." method="_on_Button_pressed"]

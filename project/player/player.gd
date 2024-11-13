@@ -100,6 +100,9 @@ func is_bullet_off_screen(bullet: Node2D) -> bool:
 
 func _on_hitbox_area_entered(area: Area2D) -> void:
 	if area.is_in_group("enemy"):
-		get_tree().change_scene_to_file("res://title/title.tscn")
-		queue_free()
+		call_deferred("_change_scene")
+		
+func _change_scene():
+	get_tree().change_scene_to_file("res://title/title.tscn")
+	queue_free()
 		
