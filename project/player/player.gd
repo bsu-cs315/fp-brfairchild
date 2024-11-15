@@ -11,17 +11,18 @@ extends CharacterBody2D
 @onready var focus_sprite1 = $PlayerFocusTexture2
 @onready var focus_sprite2 = $PlayerFocusTexture1
 @onready var player_sprite = $AnimatedSprite2D
+@onready var collision_shape = $CollisionShape2D
 
 var shoot_timer := 0.0
 var bullet_pool: Array[Node2D] = [] 
 var active_bullets: Array[Node2D] = []
-
+var lives := 3
+var invulnerable := false
 
 func _ready():
 	focus_sprite1.visible = false
 	focus_sprite2.visible = false
-	call_deferred("_initialize_bullet_pool")
-	
+	_initialize_bullet_pool()
 
 
 func _initialize_bullet_pool():
@@ -29,9 +30,9 @@ func _initialize_bullet_pool():
 		var bullet = bullet_scene.instantiate()
 		bullet.visible = false
 		bullet_pool.append(bullet)
-		get_parent().add_child(bullet)
+		get_parent().call_deferred("add_child", bullet)
 		bullet.connect("bullet_hit", Callable(self, "_on_bullet_collided"))
-		
+
 
 
 func _process(delta: float):
@@ -43,7 +44,7 @@ func _process(delta: float):
 
 	var current_speed = focus_speed if Input.is_action_pressed("focus") else speed
 	velocity = direction * current_speed
-	
+
 	if Input.is_action_pressed("focus"):
 		focus_sprite1.visible = true
 		focus_sprite2.visible = true
@@ -55,7 +56,7 @@ func _process(delta: float):
 	if direction.y != 0:
 		player_sprite.rotation_degrees = direction.y * tilt_amount
 	else:
-		player_sprite.rotation_degrees = lerp(float(player_sprite.rotation_degrees), 0.0, 0.1)
+		player_sprite.rotation_degrees = lerp(float(player_sprite.rotation_degrees), 0.1, 0.1)
 		
 	var screen_size = get_viewport_rect().size
 	position.x = clamp(position.x, 0, screen_size.x)
@@ -77,11 +78,9 @@ func spawn_bullet():
 		bullet.position = global_position + Vector2(bullet_offset, 0)
 		bullet.visible = true
 		active_bullets.append(bullet)
-	else:
-		pass
+
 
 func _on_bullet_collided(bullet: Node2D):
-	print("ow")
 	recycle_bullet(bullet)
 
 
@@ -99,10 +98,24 @@ func is_bullet_off_screen(bullet: Node2D) -> bool:
 
 
 func _on_hitbox_area_entered(area: Area2D) -> void:
-	if area.is_in_group("enemy"):
-		call_deferred("_change_scene")
-		
+	if area.is_in_group("enemy") and not invulnerable:
+		lives -= 1
+		if lives <= 0:
+			call_deferred("_change_scene")
+		else:
+			print("Lives left:", lives)
+			activate_invulnerability()
+
+
+func activate_invulnerability() -> void:
+	invulnerable = true
+	collision_shape.set_deferred("disabled", true)
+	await get_tree().create_timer(2.0).timeout
+	collision_shape.set_deferred("disabled", false)
+	invulnerable = false
+
+
+
 func _change_scene():
 	get_tree().change_scene_to_file("res://title/title.tscn")
 	queue_free()
-		

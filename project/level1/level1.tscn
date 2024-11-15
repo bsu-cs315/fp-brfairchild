@@ -41,11 +41,12 @@ environment = SubResource("Environment_2try5")
 [node name="BulletPool" parent="." instance=ExtResource("3_wfuy1")]
 position = Vector2(-39, -30)
 
-[node name="Player" parent="." instance=ExtResource("1_ulg3c")]
-position = Vector2(232, 332)
+[node name="PlayerSpawn" type="Node2D" parent="."]
+position = Vector2(129, 356)
 
 [node name="SpawnTimer" type="Timer" parent="."]
 wait_time = 2.0
+autostart = true
 
 [node name="CPUParticles3D" type="CPUParticles3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 0.49297, -0.870046, 0, 0.870046, 0.49297, 2.58683, 0, -2.16)
@@ -69,5 +70,8 @@ color = Color(0, 0.734117, 0.734117, 1)
 color_ramp = SubResource("Gradient_rssod")
 hue_variation_min = 1.0
 hue_variation_max = 1.0
+
+[node name="Player" parent="." instance=ExtResource("1_ulg3c")]
+position = Vector2(187, 353)
 
 [connection signal="timeout" from="SpawnTimer" to="." method="_on_respawn_timer_timeout"]

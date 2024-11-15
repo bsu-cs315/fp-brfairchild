@@ -9,6 +9,8 @@ var health := 5
 var speed: float
 
 signal deleted
+signal defeated
+
 
 func _ready():
 	speed = randf_range(speed_range.x, speed_range.y)
@@ -28,8 +30,6 @@ func _on_timer_timeout() -> void:
 		bullet_pool.spawn_bullet(bullet_position)
 	else:
 		print("Bullet pool not assigned.")
-		
-		
 
 
 func _on_hitbox_area_entered(area: Area2D) -> void:
@@ -37,4 +37,5 @@ func _on_hitbox_area_entered(area: Area2D) -> void:
 		health -= 1
 		if health <= 0:
 			deleted.emit()
+			defeated.emit()
 			queue_free()
