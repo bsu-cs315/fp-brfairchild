@@ -39,6 +39,7 @@ Enemy = ExtResource("2_ig40w")
 environment = SubResource("Environment_2try5")
 
 [node name="BulletPool" parent="." instance=ExtResource("3_wfuy1")]
+position = Vector2(-39, -30)
 
 [node name="Player" parent="." instance=ExtResource("1_ulg3c")]
 position = Vector2(232, 332)
