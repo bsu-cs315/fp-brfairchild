@@ -4,6 +4,8 @@ extends Node2D
 @onready var phase1_spawn_timer = $SpawnTimer
 @onready var phase1_timer = $Phase1Timer
 
+@export var EnemyPhase2: PackedScene
+
 var defeated_count: int = 0
 
 
@@ -45,4 +47,13 @@ func _on_respawn_timer_timeout():
 
 func _on_phase1_timeout() -> void:
 	phase1_spawn_timer.stop()
-	print("Level timer expired. No more enemies will spawn.")
+	$CoolDownTImer.start()
+
+func _on_cool_down_timer_timeout() -> void:
+	var enemy_instance = EnemyPhase2.instantiate()
+	enemy_instance.position = Vector2.ZERO
+	add_child(enemy_instance)
+
+
+func _on_phase_2_timer_timeout() -> void:
+	pass # BossLogic

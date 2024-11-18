@@ -1,0 +1,77 @@
+[gd_scene load_steps=7 format=3 uid="uid://dbaphaj80put8"]
+
+[ext_resource type="Texture2D" uid="uid://bwee0ksgo32sk" path="res://enemy_type2/enemy_type2_bullet_texture.png" id="1_ba5o4"]
+[ext_resource type="Script" path="res://enemy_type2/enemy_bullet_2.gd" id="1_owhus"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_24bce"]
+radius = 16.0312
+
+[sub_resource type="Animation" id="Animation_bworx"]
+resource_name = "bullet_spin"
+length = 2.0
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1, 2),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [0.0, 3.14159, 6.28319]
+}
+
+[sub_resource type="Animation" id="Animation_vlvhd"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_mgfnu"]
+_data = {
+"RESET": SubResource("Animation_vlvhd"),
+"bullet_spin": SubResource("Animation_bworx")
+}
+
+[node name="EnemyBullet2" type="Area2D"]
+script = ExtResource("1_owhus")
+
+[node name="ChaseTImer" type="Timer" parent="."]
+unique_name_in_owner = true
+
+[node name="PushTimer" type="Timer" parent="."]
+unique_name_in_owner = true
+wait_time = 3.0
+autostart = true
+
+[node name="MasterTimer" type="Timer" parent="."]
+wait_time = 15.0
+autostart = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_24bce")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+root_node = NodePath("../Sprite2D")
+libraries = {
+"": SubResource("AnimationLibrary_mgfnu")
+}
+autoplay = "bullet_spin"
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("1_ba5o4")
+
+[connection signal="timeout" from="ChaseTImer" to="." method="_on_chase_timer_timeout"]
+[connection signal="timeout" from="PushTimer" to="." method="_on_push_timer_timeout"]
+[connection signal="timeout" from="MasterTimer" to="." method="_on_master_timer_timeout"]

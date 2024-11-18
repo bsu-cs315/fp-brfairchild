@@ -36,7 +36,6 @@ func _initialize_bullet_pool():
 		bullet.connect("bullet_hit", Callable(self, "_on_bullet_collided"))
 
 
-
 func _process(delta: float):
 	shoot_timer -= delta
 	var direction = Vector2(
@@ -115,7 +114,6 @@ func activate_invulnerability() -> void:
 	await get_tree().create_timer(2.0).timeout
 	collision_shape.set_deferred("disabled", false)
 	invulnerable = false
-
 
 
 func _change_scene():

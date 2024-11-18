@@ -94,7 +94,7 @@ radius = 12.0
 [sub_resource type="CircleShape2D" id="CircleShape2D_iphwt"]
 radius = 12.0
 
-[node name="Player" type="CharacterBody2D"]
+[node name="Player" type="CharacterBody2D" groups=["player_sprite"]]
 script = ExtResource("1_tcj71")
 bullet_scene = ExtResource("2_b42ft")
 

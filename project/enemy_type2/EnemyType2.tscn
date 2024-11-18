@@ -1,0 +1,146 @@
+[gd_scene load_steps=10 format=3 uid="uid://0bdfcun5wmab"]
+
+[ext_resource type="Script" path="res://enemy_type2/enemy_type_2.gd" id="1_2omjg"]
+[ext_resource type="Texture2D" uid="uid://dxa4webpvobdu" path="res://enemy_type2/enemy2_texture.png" id="1_k1f8x"]
+[ext_resource type="PackedScene" uid="uid://dbaphaj80put8" path="res://enemy_type2/enemy_bullet2.tscn" id="2_wtgv5"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_fgsna"]
+atlas = ExtResource("1_k1f8x")
+region = Rect2(0, 0, 73, 75)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_wrbtb"]
+atlas = ExtResource("1_k1f8x")
+region = Rect2(81, 0, 73, 75)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_58jl1"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_fgsna")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_wrbtb")
+}],
+"loop": true,
+"name": &"default",
+"speed": 4.0
+}]
+
+[sub_resource type="Animation" id="Animation_dyhwq"]
+resource_name = "phase2_anm"
+length = 4.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("AnimatedSprite2D:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1, 2, 4),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [Vector2(1469, 344), Vector2(1052, 350), Vector2(830, 97), Vector2(1210, 50)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("AnimatedSprite2D2:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 1, 2, 4),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [Vector2(1470, 430), Vector2(1052, 476), Vector2(877, 663), Vector2(1200, 648)]
+}
+
+[sub_resource type="Animation" id="Animation_pntws"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("AnimatedSprite2D:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(1469, 344)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("AnimatedSprite2D2:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(1470, 430)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_fu2u5"]
+_data = {
+"RESET": SubResource("Animation_pntws"),
+"phase2_anm": SubResource("Animation_dyhwq")
+}
+
+[node name="EnemyType2" type="Node2D"]
+script = ExtResource("1_2omjg")
+bullet_scene = ExtResource("2_wtgv5")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+position = Vector2(1469, 344)
+sprite_frames = SubResource("SpriteFrames_58jl1")
+autoplay = "default"
+frame_progress = 0.567023
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_fu2u5")
+}
+autoplay = "phase2_anm"
+
+[node name="AnimatedSprite2D2" type="AnimatedSprite2D" parent="."]
+position = Vector2(1470, 430)
+sprite_frames = SubResource("SpriteFrames_58jl1")
+autoplay = "default"
+frame_progress = 0.892881
+
+[node name="Spawn1" type="Node2D" parent="."]
+position = Vector2(1049, 346)
+
+[node name="Spawn1b" type="Node2D" parent="."]
+position = Vector2(1052, 481)
+
+[node name="Spawn2" type="Node2D" parent="."]
+position = Vector2(1226, 57)
+
+[node name="Spawn2b" type="Node2D" parent="."]
+position = Vector2(1208, 666)
+
+[node name="Spawn3" type="Node2D" parent="."]
+position = Vector2(827, 93)
+
+[node name="Spawn3b" type="Node2D" parent="."]
+position = Vector2(879, 668)
+
+[node name="Spawn1Timer" type="Timer" parent="."]
+one_shot = true
+autostart = true
+
+[node name="Spawn2Timer" type="Timer" parent="."]
+wait_time = 2.0
+one_shot = true
+autostart = true
+
+[node name="Spawn3Timer" type="Timer" parent="."]
+wait_time = 4.0
+one_shot = true
+autostart = true
+
+[connection signal="timeout" from="Spawn1Timer" to="." method="_on_spawn_1_timer_timeout"]
+[connection signal="timeout" from="Spawn2Timer" to="." method="_on_spawn_2_timer_timeout"]
+[connection signal="timeout" from="Spawn3Timer" to="." method="_on_spawn_3_timer_timeout"]

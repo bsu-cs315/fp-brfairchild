@@ -28,6 +28,7 @@ player="Group the player is located in."
 enemy=""
 enemy_character=""
 player_bullet=""
+player_sprite=""
 
 [input]
 
