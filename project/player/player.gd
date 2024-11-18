@@ -19,6 +19,8 @@ var active_bullets: Array[Node2D] = []
 var lives := 3
 var invulnerable := false
 
+signal PLAYER_DIED
+
 func _ready():
 	focus_sprite1.visible = false
 	focus_sprite2.visible = false
@@ -100,10 +102,10 @@ func is_bullet_off_screen(bullet: Node2D) -> bool:
 func _on_hitbox_area_entered(area: Area2D) -> void:
 	if area.is_in_group("enemy") and not invulnerable:
 		lives -= 1
+		PLAYER_DIED.emit()
 		if lives <= 0:
 			call_deferred("_change_scene")
 		else:
-			print("Lives left:", lives)
 			activate_invulnerability()
 
 
