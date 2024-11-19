@@ -44,7 +44,7 @@ _data = {
 "bullet_spin": SubResource("Animation_bworx")
 }
 
-[node name="EnemyBullet2" type="Area2D"]
+[node name="EnemyBullet2" type="Area2D" groups=["enemy"]]
 script = ExtResource("1_owhus")
 
 [node name="ChaseTImer" type="Timer" parent="."]
