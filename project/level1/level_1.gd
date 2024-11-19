@@ -71,6 +71,8 @@ func _start_boss() -> void:
 	var enemy_characters = get_tree().get_nodes_in_group("enemy_character")
 	for enemy_character in enemy_characters:
 		enemy_character.queue_free()
+		
+	get_tree().change_scene_to_file("res://win/win.tscn")
 
 
 	
