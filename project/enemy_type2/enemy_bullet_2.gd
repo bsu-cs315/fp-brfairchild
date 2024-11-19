@@ -3,7 +3,11 @@ extends Area2D
 var player_position: Vector2
 @onready var move_timer = get_node("%ChaseTImer")
 @onready var push_timer = get_node("%PushTimer")
+
+@export var speed := 300
 var can_move: bool = true
+
+signal FINISH_PHASE2
 
 func _ready() -> void:
 	var players = get_tree().get_nodes_in_group("player_sprite")
@@ -17,7 +21,7 @@ func _process(delta: float) -> void:
 		player_position = players[0].position
 	if can_move and player_position:
 		var direction = (player_position - position).normalized()
-		position += direction * 300 * delta
+		position += direction * speed * delta
 
 
 func _on_chase_timer_timeout() -> void:
@@ -34,4 +38,5 @@ func _on_push_timer_timeout() -> void:
 
 
 func _on_master_timer_timeout() -> void:
+	FINISH_PHASE2.emit()
 	queue_free()

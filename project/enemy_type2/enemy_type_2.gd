@@ -29,3 +29,4 @@ func _on_spawn_3_timer_timeout() -> void:
 	bullet_instance6.position = $Spawn2b.position
 	get_parent().add_child(bullet_instance5)
 	get_parent().add_child(bullet_instance6)
+	

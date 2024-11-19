@@ -26,6 +26,33 @@ animations = [{
 "speed": 4.0
 }]
 
+[sub_resource type="Animation" id="Animation_pntws"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("AnimatedSprite2D:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(1469, 344)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("AnimatedSprite2D2:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(1470, 430)]
+}
+
 [sub_resource type="Animation" id="Animation_dyhwq"]
 resource_name = "phase2_anm"
 length = 4.0
@@ -54,40 +81,13 @@ tracks/1/keys = {
 "values": [Vector2(1470, 430), Vector2(1052, 476), Vector2(877, 663), Vector2(1200, 648)]
 }
 
-[sub_resource type="Animation" id="Animation_pntws"]
-length = 0.001
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("AnimatedSprite2D:position")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Vector2(1469, 344)]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("AnimatedSprite2D2:position")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Vector2(1470, 430)]
-}
-
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_fu2u5"]
 _data = {
 "RESET": SubResource("Animation_pntws"),
 "phase2_anm": SubResource("Animation_dyhwq")
 }
 
-[node name="EnemyType2" type="Node2D"]
+[node name="EnemyType2" type="Node2D" groups=["enemy", "enemy_character"]]
 script = ExtResource("1_2omjg")
 bullet_scene = ExtResource("2_wtgv5")
 

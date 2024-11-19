@@ -5,6 +5,7 @@ extends Node2D
 @onready var phase1_timer = $Phase1Timer
 
 @export var EnemyPhase2: PackedScene
+@export var BulletPhase2: PackedScene
 
 var defeated_count: int = 0
 
@@ -54,6 +55,24 @@ func _on_cool_down_timer_timeout() -> void:
 	enemy_instance.position = Vector2.ZERO
 	add_child(enemy_instance)
 
+	var phase2_bullet = BulletPhase2.instantiate()
+	phase2_bullet.connect("FINISH_PHASE2", Callable(self, "_timeout_phase2_bullets"))
+	phase2_bullet.speed = -500
+	add_child(phase2_bullet)
+	
+func _timeout_phase2_bullets() -> void:
+	_start_boss()
 
+func _start_boss() -> void:
+	print("SDJKFHLASDKJFHGLKASJFHDLKASJDHF")
+	var enemies = get_tree().get_nodes_in_group("enemy")
+	for enemy in enemies:
+		enemy.queue_free()
+	var enemy_characters = get_tree().get_nodes_in_group("enemy_character")
+	for enemy_character in enemy_characters:
+		enemy_character.queue_free()
+
+
+	
 func _on_phase_2_timer_timeout() -> void:
-	pass # BossLogic
+	_start_boss()
