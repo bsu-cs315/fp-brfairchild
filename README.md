@@ -1,4 +1,7 @@
 # Final Project
+#### Group Members
+- Brayden Fairchild
+
 
 # Iteration 1:
 
@@ -6,7 +9,7 @@ This iteration I focused alot of making the bullet pool system working. It has a
 
 # Iteration 2:
 
-This iteration was focused on fixing parts of iteration 1 along with adding some new types of enemies and a timer system to make the levels play out through phases. What still needs to be done is to implement the boss for the stage. One of the issues I have encountered is how to correct the background, currently on my system (EndeavourOS with GNOME) the background is transparent with no real ways to fix this. When I boot into windows it does not sure so I am unsure as to what the issue could be. What I had the most fun with this time was making the title screen look good as well as making a different type of bullet.
+This iteration was focused on fixing parts of iteration 1 along with adding some new types of enemies and a timer system to make the levels play out through phases. What still needs to be done is to implement the boss for the stage. One of the issues I have encountered is how to correct the background, currently on my system (EndeavourOS with GNOME) the background is transparent with no real ways to fix this. When I boot into windows it does not sure so I am unsure as to what the issue could be. What I had the most fun with this time was making the title screen look good as well as making a different type of bullet. I am expecting a C on this assessment.
 
 
 ## Instructions
@@ -31,24 +34,4 @@ Try to survive!
 - Images
   - used Photoea and Libresprite.
 
-## Essential Goals Met
-- Core Loop
-
-The game features a loop that will take you back to the title screen upon being defeated.
-
-- Player Experience
-
-Has sounds and graphics along with subtle animations to add a little juice.
-
-- Legal
-
-All assets used were made by me with credit towards the programs used to create them.
-
-- Versioning
-
-Project uses git will all needed files tracked, a release, and project history being shown
-
-- Documentation
-
-Project report is stated above 
 
