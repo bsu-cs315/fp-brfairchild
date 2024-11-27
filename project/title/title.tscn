@@ -1,9 +1,10 @@
-[gd_scene load_steps=9 format=3 uid="uid://drky7bjopqte0"]
+[gd_scene load_steps=10 format=3 uid="uid://drky7bjopqte0"]
 
 [ext_resource type="Script" path="res://title/title.gd" id="1_bdvph"]
 [ext_resource type="Texture2D" uid="uid://d380bwc2845ib" path="res://title/title_background_texture.png" id="2_gnffr"]
 [ext_resource type="Shader" path="res://title/arrow_scroll.gdshader" id="2_r4jq0"]
 [ext_resource type="Texture2D" uid="uid://con1jckxgctxl" path="res://title/title_scroll_texture_bottom.png" id="3_f3mir"]
+[ext_resource type="AudioStream" uid="uid://c8yunmcclk4hq" path="res://title/title_theme.wav" id="5_xibf3"]
 
 [sub_resource type="Curve" id="Curve_i87sl"]
 max_value = 5.0
@@ -89,5 +90,11 @@ rotation = -3.19607
 texture = ExtResource("3_f3mir")
 expand_mode = 1
 stretch_mode = 1
+
+[node name="TitleTheme" type="AudioStreamPlayer2D" parent="."]
+position = Vector2(10, 14)
+stream = ExtResource("5_xibf3")
+autoplay = true
+panning_strength = 0.0
 
 [connection signal="pressed" from="Button" to="." method="_on_Button_pressed"]
