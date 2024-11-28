@@ -15,7 +15,7 @@
 sky_material = SubResource("ProceduralSkyMaterial_nkrag")
 
 [sub_resource type="Environment" id="Environment_p6jhb"]
-background_mode = 1
+background_mode = 2
 sky = SubResource("Sky_347u3")
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_nhajv"]

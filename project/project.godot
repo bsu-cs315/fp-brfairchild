@@ -20,7 +20,6 @@ config/icon="res://icon.svg"
 window/size/viewport_width=1280
 window/size/viewport_height=720
 window/stretch/mode="viewport"
-window/per_pixel_transparency/allowed=true
 
 [global_group]
 
@@ -65,5 +64,4 @@ focus={
 
 [rendering]
 
-environment/defaults/default_clear_color=Color(0.301961, 0.301961, 0.301961, 1)
 anti_aliasing/quality/screen_space_aa=1
