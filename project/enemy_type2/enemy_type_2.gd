@@ -2,6 +2,11 @@ extends Node2D
 
 @export var bullet_scene: PackedScene
 
+@warning_ignore("unused_signal")
+# We can ignore this as it is being used by the level.
+signal defeatedenm2
+
+var health := 200
 
 func _on_spawn_1_timer_timeout() -> void:
 	if bullet_scene:
@@ -12,7 +17,6 @@ func _on_spawn_1_timer_timeout() -> void:
 		get_parent().add_child(bullet_instance)
 		get_parent().add_child(bullet_instance2)
 		
-
 func _on_spawn_2_timer_timeout() -> void:
 	var bullet_instance3 = bullet_scene.instantiate()
 	var bullet_instance4 = bullet_scene.instantiate()
@@ -21,7 +25,6 @@ func _on_spawn_2_timer_timeout() -> void:
 	get_parent().add_child(bullet_instance3)
 	get_parent().add_child(bullet_instance4)
 
-
 func _on_spawn_3_timer_timeout() -> void:
 	var bullet_instance5 = bullet_scene.instantiate()
 	var bullet_instance6 = bullet_scene.instantiate()
@@ -29,4 +32,19 @@ func _on_spawn_3_timer_timeout() -> void:
 	bullet_instance6.position = $Spawn2b.position
 	get_parent().add_child(bullet_instance5)
 	get_parent().add_child(bullet_instance6)
-	
+
+func _on_area_2_de_1_area_entered(area: Area2D) -> void:
+	%HitParticles1.emitting = true
+	if area.is_in_group("player_bullet"):
+		health -= 1
+		if health <= 0:
+			emit_signal("defeatedenm2")
+			queue_free()
+
+func _on_area_2_de_2_area_entered(area: Area2D) -> void:
+	%HitParticles2.emitting = true
+	if area.is_in_group("player_bullet"):
+		health -= 1
+		if health <= 0:
+			emit_signal("defeatedenm2")  
+			queue_free()

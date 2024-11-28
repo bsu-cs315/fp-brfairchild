@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://0bdfcun5wmab"]
+[gd_scene load_steps=13 format=3 uid="uid://0bdfcun5wmab"]
 
 [ext_resource type="Script" path="res://enemy_type2/enemy_type_2.gd" id="1_2omjg"]
 [ext_resource type="Texture2D" uid="uid://dxa4webpvobdu" path="res://enemy_type2/enemy2_texture.png" id="1_k1f8x"]
@@ -25,6 +25,12 @@ animations = [{
 "name": &"default",
 "speed": 4.0
 }]
+
+[sub_resource type="Gradient" id="Gradient_j324f"]
+colors = PackedColorArray(0.64209, 0.0479869, 0.64552, 1, 0, 1, 1, 1)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_4j25x"]
+size = Vector2(70, 69)
 
 [sub_resource type="Animation" id="Animation_pntws"]
 length = 0.001
@@ -87,15 +93,43 @@ _data = {
 "phase2_anm": SubResource("Animation_dyhwq")
 }
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_xp4r3"]
+size = Vector2(69, 70)
+
 [node name="EnemyType2" type="Node2D" groups=["enemy", "enemy_character"]]
 script = ExtResource("1_2omjg")
 bullet_scene = ExtResource("2_wtgv5")
 
-[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." groups=["enemy_character"]]
 position = Vector2(1469, 344)
 sprite_frames = SubResource("SpriteFrames_58jl1")
 autoplay = "default"
 frame_progress = 0.567023
+
+[node name="Area2De1" type="Area2D" parent="AnimatedSprite2D" groups=["enemy_character"]]
+
+[node name="HitParticles1" type="CPUParticles2D" parent="AnimatedSprite2D/Area2De1"]
+unique_name_in_owner = true
+position = Vector2(2, 1)
+emitting = false
+amount = 20
+explosiveness = 1.0
+emission_shape = 1
+emission_sphere_radius = 36.35
+gravity = Vector2(0, 0)
+angular_velocity_min = 50.0
+angular_velocity_max = 180.0
+orbit_velocity_max = 0.5
+radial_accel_min = 89.52
+radial_accel_max = 100.0
+scale_amount_min = 0.5
+scale_amount_max = 3.0
+color = Color(0, 0.71094, 0.711483, 1)
+color_ramp = SubResource("Gradient_j324f")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="AnimatedSprite2D/Area2De1" groups=["enemy_character"]]
+position = Vector2(0, -0.5)
+shape = SubResource("RectangleShape2D_4j25x")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {
@@ -103,11 +137,36 @@ libraries = {
 }
 autoplay = "phase2_anm"
 
-[node name="AnimatedSprite2D2" type="AnimatedSprite2D" parent="."]
+[node name="AnimatedSprite2D2" type="AnimatedSprite2D" parent="." groups=["enemy_character"]]
 position = Vector2(1470, 430)
 sprite_frames = SubResource("SpriteFrames_58jl1")
 autoplay = "default"
 frame_progress = 0.892881
+
+[node name="Area2De2" type="Area2D" parent="AnimatedSprite2D2" groups=["enemy_character"]]
+
+[node name="HitParticles2" type="CPUParticles2D" parent="AnimatedSprite2D2/Area2De2"]
+unique_name_in_owner = true
+position = Vector2(0, 4)
+emitting = false
+amount = 20
+explosiveness = 1.0
+emission_shape = 1
+emission_sphere_radius = 36.35
+gravity = Vector2(0, 0)
+angular_velocity_min = 50.0
+angular_velocity_max = 180.0
+orbit_velocity_max = 0.5
+radial_accel_min = 89.52
+radial_accel_max = 100.0
+scale_amount_min = 0.5
+scale_amount_max = 3.0
+color = Color(0, 0.71094, 0.711483, 1)
+color_ramp = SubResource("Gradient_j324f")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="AnimatedSprite2D2/Area2De2" groups=["enemy_character"]]
+position = Vector2(0.5, 1)
+shape = SubResource("RectangleShape2D_xp4r3")
 
 [node name="Spawn1" type="Node2D" parent="."]
 position = Vector2(1049, 346)
@@ -141,6 +200,8 @@ wait_time = 4.0
 one_shot = true
 autostart = true
 
+[connection signal="area_entered" from="AnimatedSprite2D/Area2De1" to="." method="_on_area_2_de_1_area_entered"]
+[connection signal="area_entered" from="AnimatedSprite2D2/Area2De2" to="." method="_on_area_2_de_2_area_entered"]
 [connection signal="timeout" from="Spawn1Timer" to="." method="_on_spawn_1_timer_timeout"]
 [connection signal="timeout" from="Spawn2Timer" to="." method="_on_spawn_2_timer_timeout"]
 [connection signal="timeout" from="Spawn3Timer" to="." method="_on_spawn_3_timer_timeout"]
