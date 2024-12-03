@@ -1,38 +1,110 @@
-[gd_scene load_steps=8 format=3 uid="uid://bqqim40xnth12"]
+[gd_scene load_steps=9 format=3 uid="uid://bqqim40xnth12"]
 
 [ext_resource type="Texture2D" uid="uid://ct53eewucobfr" path="res://boss/boss_texture.png" id="1_8nix8"]
 [ext_resource type="Script" path="res://boss/boss.gd" id="1_aoqws"]
-[ext_resource type="Shader" path="res://boss/boss_power.gdshader" id="3_t7ko1"]
-[ext_resource type="Texture2D" uid="uid://bamjror7aoi1t" path="res://boss/Abstract_Noise_051-512x512.png" id="4_t31cf"]
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_raxmm"]
-shader = ExtResource("3_t7ko1")
-shader_parameter/texture = ExtResource("4_t31cf")
-
-[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_of6ju"]
-load_path = "res://.godot/imported/Abstract_Noise_033-512x512.png-73d884bdf902d28f1e84106aef15101d.ctex"
+[ext_resource type="AudioStream" uid="uid://cfik4655eam07" path="res://boss/explosion (1).wav" id="3_gfmen"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_tkpaj"]
 size = Vector2(682.222, 584.444)
 
-[node name="Boss" type="Node2D"]
-position = Vector2(593, 344)
+[sub_resource type="Animation" id="Animation_o3bha"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("BossSprite:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(1481, 368)]
+}
+
+[sub_resource type="Animation" id="Animation_8bn65"]
+resource_name = "phase1"
+length = 8.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("BossSprite:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1, 1.96667, 2.5, 4, 5.86667, 6.4, 7.9),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [Vector2(1481, 368), Vector2(1086, 368), Vector2(1086, 140), Vector2(954, 580), Vector2(1086, 368), Vector2(1086, 140), Vector2(954, 580), Vector2(1086, 368)]
+}
+
+[sub_resource type="Animation" id="Animation_pcetx"]
+resource_name = "phase2"
+length = 10.0
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("BossSprite:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 3, 4, 4.76667, 5.36667, 6.5, 10),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [Vector2(1111, 359), Vector2(1102, 353), Vector2(637, 132), Vector2(980, 583), Vector2(1087, 136), Vector2(803, 366), Vector2(1111, 359)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_3kwvc"]
+_data = {
+"RESET": SubResource("Animation_o3bha"),
+"phase1": SubResource("Animation_8bn65"),
+"phase2": SubResource("Animation_pcetx")
+}
+
+[node name="Boss" type="Node2D" groups=["enemy", "enemy_character"]]
+position = Vector2(-1, 2)
 script = ExtResource("1_aoqws")
 
-[node name="BossTexture" type="Sprite2D" parent="."]
-position = Vector2(303, 104)
-texture = ExtResource("1_8nix8")
-
-[node name="SpritePower" type="Sprite2D" parent="."]
-material = SubResource("ShaderMaterial_raxmm")
-texture = SubResource("CompressedTexture2D_of6ju")
-
-[node name="Sprite2D" type="Sprite2D" parent="."]
+[node name="BossSprite" type="Sprite2D" parent="."]
+position = Vector2(1481, 368)
 scale = Vector2(0.45, 0.45)
 texture = ExtResource("1_8nix8")
 
-[node name="Area2D" type="Area2D" parent="Sprite2D"]
+[node name="Area2D" type="Area2D" parent="BossSprite"]
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Sprite2D/Area2D"]
-position = Vector2(1.1111, -1.11113)
+[node name="CollisionShape2D" type="CollisionShape2D" parent="BossSprite/Area2D"]
 shape = SubResource("RectangleShape2D_tkpaj")
+
+[node name="SpawnLoc" type="Node2D" parent="BossSprite"]
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_3kwvc")
+}
+
+[node name="Phase1" type="Timer" parent="."]
+wait_time = 8.0
+one_shot = true
+
+[node name="Phase2" type="Timer" parent="."]
+wait_time = 20.0
+one_shot = true
+
+[node name="BulletTimer" type="Timer" parent="."]
+wait_time = 0.8
+
+[node name="SpawnSound" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("3_gfmen")
+volume_db = -4.685
+max_polyphony = 2
+panning_strength = 0.0
+
+[node name="FinalTImer" type="Timer" parent="."]
+wait_time = 100.0
+
+[connection signal="area_entered" from="BossSprite/Area2D" to="." method="_on_area_2d_area_entered"]
+[connection signal="timeout" from="Phase1" to="." method="_on_phase_1_timeout"]
+[connection signal="timeout" from="Phase2" to="." method="_on_phase_2_timeout"]
+[connection signal="timeout" from="BulletTimer" to="." method="_on_phase_1_bullet_timer_timeout"]
+[connection signal="timeout" from="FinalTImer" to="." method="_on_final_t_imer_timeout"]

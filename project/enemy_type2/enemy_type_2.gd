@@ -6,7 +6,8 @@ extends Node2D
 # We can ignore this as it is being used by the level.
 signal defeatedenm2
 
-var health := 200
+var health1 := 150
+var health2 := 150
 
 func _on_spawn_1_timer_timeout() -> void:
 	if bullet_scene:
@@ -34,17 +35,15 @@ func _on_spawn_3_timer_timeout() -> void:
 	get_parent().add_child(bullet_instance6)
 
 func _on_area_2_de_1_area_entered(area: Area2D) -> void:
-	%HitParticles1.emitting = true
 	if area.is_in_group("player_bullet"):
-		health -= 1
-		if health <= 0:
+		health1 -= 1
+		if health1 <= 0:
 			emit_signal("defeatedenm2")
 			queue_free()
 
 func _on_area_2_de_2_area_entered(area: Area2D) -> void:
-	%HitParticles2.emitting = true
 	if area.is_in_group("player_bullet"):
-		health -= 1
-		if health <= 0:
+		health2 -= 1
+		if health2 <= 0:
 			emit_signal("defeatedenm2")  
 			queue_free()

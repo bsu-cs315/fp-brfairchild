@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=3 uid="uid://dspldn353hqiq"]
+[gd_scene load_steps=20 format=3 uid="uid://dspldn353hqiq"]
 
 [ext_resource type="Script" path="res://level1/level_1.gd" id="1_hh4fe"]
 [ext_resource type="PackedScene" uid="uid://cpko1hrbwgkfu" path="res://player/player.tscn" id="1_ulg3c"]
@@ -8,6 +8,10 @@
 [ext_resource type="PackedScene" uid="uid://dbaphaj80put8" path="res://enemy_type2/enemy_bullet2.tscn" id="4_xgb3n"]
 [ext_resource type="Texture2D" uid="uid://cxlwcbrf4c6vs" path="res://level1/particles.png" id="5_3422w"]
 [ext_resource type="PackedScene" uid="uid://0bdfcun5wmab" path="res://enemy_type2/EnemyType2.tscn" id="7_fayyj"]
+[ext_resource type="Shader" path="res://boss/boss_power.gdshader" id="9_tl4ca"]
+[ext_resource type="Texture2D" uid="uid://ddlbexsyyhs33" path="res://boss/Abstract_Noise_037-512x512.png" id="9_vywa6"]
+[ext_resource type="PackedScene" uid="uid://bqqim40xnth12" path="res://boss/boss.tscn" id="11_neqbv"]
+[ext_resource type="AudioStream" uid="uid://c8yunmcclk4hq" path="res://level1/level1_theme.wav" id="12_nagfv"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_nkrag"]
 
@@ -29,11 +33,21 @@ size = Vector2(0.2, 0.2)
 [sub_resource type="Gradient" id="Gradient_rssod"]
 colors = PackedColorArray(0, 0.584314, 0.521569, 1, 1, 1, 1, 1)
 
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_duxfd"]
+shader = ExtResource("9_tl4ca")
+shader_parameter/wobble_speed = 1.0
+shader_parameter/wobble_intensity = 0.1
+shader_parameter/grow_speed = 0.5
+shader_parameter/panning_speed = 0.2
+shader_parameter/transparency = 0.14
+shader_parameter/texture = ExtResource("9_vywa6")
+
 [node name="Level1" type="Node2D"]
 script = ExtResource("1_hh4fe")
 Enemy = ExtResource("2_ig40w")
 EnemyPhase2 = ExtResource("7_fayyj")
 BulletPhase2 = ExtResource("4_xgb3n")
+boss = ExtResource("11_neqbv")
 
 [node name="PlayerHUD" parent="." instance=ExtResource("3_snnct")]
 
@@ -63,11 +77,28 @@ color_ramp = SubResource("Gradient_rssod")
 hue_variation_min = 1.0
 hue_variation_max = 1.0
 
+[node name="BossFx" type="Sprite2D" parent="."]
+visible = false
+z_index = -11
+material = SubResource("ShaderMaterial_duxfd")
+position = Vector2(629, 340)
+scale = Vector2(3.08008, 1.81641)
+texture = ExtResource("9_vywa6")
+
+[node name="BossFx2" type="Sprite2D" parent="."]
+visible = false
+z_index = -11
+material = SubResource("ShaderMaterial_duxfd")
+position = Vector2(605, 416)
+rotation = 0.627051
+scale = Vector2(3.08008, 2.928)
+texture = ExtResource("9_vywa6")
+
 [node name="BulletPool" parent="." instance=ExtResource("3_wfuy1")]
 position = Vector2(-39, -30)
 
 [node name="PlayerSpawn" type="Node2D" parent="."]
-position = Vector2(129, 356)
+position = Vector2(184, 353)
 
 [node name="SpawnTimer" type="Timer" parent="."]
 wait_time = 2.0
@@ -88,6 +119,12 @@ position = Vector2(187, 353)
 [node name="CoolDownTImer" type="Timer" parent="."]
 wait_time = 4.0
 one_shot = true
+
+[node name="BackgroundMsc" type="AudioStreamPlayer2D" parent="."]
+position = Vector2(655, 359)
+scale = Vector2(3.08008, 1.81641)
+stream = ExtResource("12_nagfv")
+autoplay = true
 
 [connection signal="timeout" from="SpawnTimer" to="." method="_on_respawn_timer_timeout"]
 [connection signal="timeout" from="Phase1Timer" to="." method="_on_phase1_timeout"]

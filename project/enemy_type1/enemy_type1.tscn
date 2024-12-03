@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://bgsvejlihua58"]
+[gd_scene load_steps=8 format=3 uid="uid://bgsvejlihua58"]
 
 [ext_resource type="Script" path="res://enemy_type1/enemy_type_1.gd" id="1_br1wc"]
 [ext_resource type="Texture2D" uid="uid://bn306l45np3cm" path="res://enemy_type1/enemy_type1_texture.png" id="1_rsxos"]
@@ -35,9 +35,6 @@ animations = [{
 [sub_resource type="CircleShape2D" id="CircleShape2D_x27wq"]
 radius = 29.0689
 
-[sub_resource type="Gradient" id="Gradient_v43aa"]
-colors = PackedColorArray(0.64209, 0.0479869, 0.64552, 1, 0, 1, 1, 1)
-
 [node name="EnemyType1" type="Node2D" groups=["enemy_character"]]
 light_mask = 256
 visibility_layer = 256
@@ -58,25 +55,6 @@ autostart = true
 
 [node name="HitboxArea" type="CollisionShape2D" parent="Hitbox" groups=["enemy_character"]]
 shape = SubResource("CircleShape2D_x27wq")
-
-[node name="HitParticles" type="CPUParticles2D" parent="."]
-position = Vector2(-1, 5)
-emitting = false
-amount = 20
-one_shot = true
-explosiveness = 1.0
-emission_shape = 1
-emission_sphere_radius = 36.35
-gravity = Vector2(0, 0)
-angular_velocity_min = 50.0
-angular_velocity_max = 180.0
-orbit_velocity_max = 0.5
-radial_accel_min = 89.52
-radial_accel_max = 100.0
-scale_amount_min = 0.5
-scale_amount_max = 3.0
-color = Color(0, 0.71094, 0.711483, 1)
-color_ramp = SubResource("Gradient_v43aa")
 
 [connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
 [connection signal="area_entered" from="Hitbox" to="." method="_on_hitbox_area_entered"]

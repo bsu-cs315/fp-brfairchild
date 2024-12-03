@@ -6,7 +6,11 @@ extends Node2D
 
 @export var EnemyPhase2: PackedScene
 @export var BulletPhase2: PackedScene
+@export var boss: PackedScene
 
+@onready var player = $Player
+
+var boss_spawned = false
 var defeated_count: int = 0
 
 func _ready():
@@ -28,14 +32,13 @@ func spawn_enemies():
 
 func _on_enemy_destroyed():
 	if phase1_timer.is_stopped():
-		return
+		return # Your boss scene
 	
 	if get_tree().get_nodes_in_group("enemies").size() == 0:
 		phase1_spawn_timer.start()
 
 func _on_enemy_defeated():
 	defeated_count += 1
-	print("Enemies defeated:", defeated_count)
 
 func _on_respawn_timer_timeout(): 
 	spawn_enemies()
@@ -45,28 +48,39 @@ func _on_phase1_timeout() -> void:
 	$CoolDownTImer.start()
 
 func _on_cool_down_timer_timeout() -> void:
-	# Instantiate the Phase 2 enemy
 	var enemy_instance = EnemyPhase2.instantiate()
 	enemy_instance.position = Vector2.ZERO
-	enemy_instance.connect("defeatedenm2", Callable(self, "_on_phase2_enemy_defeated"))  # Connect the defeated signal
+	enemy_instance.connect("defeatedenm2", Callable(self, "_on_phase2_enemy_defeated")) 
 	add_child(enemy_instance)
 
-	# Instantiate the Phase 2 bullet
 	var phase2_bullet = BulletPhase2.instantiate()
 	phase2_bullet.speed = -500
 	add_child(phase2_bullet)
 
 func _start_boss() -> void:
-	var enemies = get_tree().get_nodes_in_group("enemy")
-	for enemy in enemies:
-		enemy.queue_free()
-	var enemy_characters = get_tree().get_nodes_in_group("enemy_character")
-	for enemy_character in enemy_characters:
-		enemy_character.queue_free()
+	if boss_spawned == false:
+		var enemies = get_tree().get_nodes_in_group("enemy")
+		for enemy in enemies:
+			enemy.queue_free()
+		var enemy_characters = get_tree().get_nodes_in_group("enemy_character")
+		for enemy_character in enemy_characters:
+			enemy_character.queue_free()
+			
+		boss_spawned = true
+		call_deferred("_deferred_add_boss")
+		$BossFx.visible = true
+		$BossFx2.visible = true
+	elif boss_spawned == true:
+		return
+
+	
+func _deferred_add_boss():
+	var bosss = boss.instantiate()
+	add_child(bosss)
+	bosss._ready()
 
 func _on_phase2_enemy_defeated():
-	print("Phase 2 enemy defeated")
-	_start_boss()  # Start the boss phase when the Phase 2 enemy is defeated
-	
+	_start_boss()
+
 func _on_phase_2_timer_timeout() -> void:
 	_start_boss()
