@@ -41,8 +41,8 @@ func spawn_bullets_in_circle() -> void:
 
 	for i in range(bullet_count):
 		var angle = i * angle_step
-		var cos_angle = cos(angle)  # Precompute cos(angle)
-		var sin_angle = sin(angle)  # Precompute sin(angle)
+		var cos_angle = cos(angle)
+		var sin_angle = sin(angle)
 		var bullet = get_inactive_bullet()
 
 		if bullet:
@@ -63,16 +63,14 @@ func spawn_bullets_in_circle() -> void:
 		bullet.set_meta("moved", false)
 
 func get_inactive_bullet() -> Node2D:
-	# Get a bullet from the pool if available (simulating pop_front in queue)
 	if bullet_pool.size() > 0:
-		return bullet_pool.pop_front()  # Pop a bullet from the front of the array
+		return bullet_pool.pop_front()
 	return null
 
 func deactivate_bullet(bullet: Node2D) -> void:
-	# Hide and return the bullet to the pool when it's deactivated
 	bullet.visible = false
 	active_bullets.erase(bullet)
-	bullet_pool.push_back(bullet)  # Push the bullet back into the pool
+	bullet_pool.push_back(bullet)
 
 func _on_phase_1_timeout() -> void:
 	phase_2_timer.start()
@@ -135,4 +133,8 @@ func _on_area_2d_area_entered(area: Area2D) -> void:
 			$ProgressBar.value-=1
 			_math_health()
 			if boss_health <= 0:
-				queue_free()
+				boss_death()
+				
+func boss_death() -> void:
+	call_deferred("queue_free")
+	get_tree().change_scene_to_file("res://win/win.tscn")

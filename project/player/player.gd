@@ -55,10 +55,10 @@ func _process(delta: float):
 	else:
 		player_sprite.rotation_degrees = lerp(float(player_sprite.rotation_degrees), 0.1, 0.1)
 
-	# Ensure player stays within screen bounds
+	# Ensure player stays within screen bounds, with a 20-pixel margin
 	var screen_size = get_viewport_rect().size
-	position.x = clamp(position.x, 0, screen_size.x)
-	position.y = clamp(position.y, 0, screen_size.y)
+	position.x = clamp(position.x, 35, screen_size.x - 20)
+	position.y = clamp(position.y, 20, screen_size.y - 20)
 
 	move_and_slide()
 

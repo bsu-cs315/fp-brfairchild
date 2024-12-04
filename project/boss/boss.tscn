@@ -1,8 +1,14 @@
-[gd_scene load_steps=9 format=3 uid="uid://bqqim40xnth12"]
+[gd_scene load_steps=11 format=3 uid="uid://bqqim40xnth12"]
 
 [ext_resource type="Texture2D" uid="uid://ct53eewucobfr" path="res://boss/boss_texture.png" id="1_8nix8"]
 [ext_resource type="Script" path="res://boss/boss.gd" id="1_aoqws"]
 [ext_resource type="AudioStream" uid="uid://cfik4655eam07" path="res://boss/explosion (1).wav" id="3_gfmen"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ylipv"]
+bg_color = Color(0, 0, 0, 0.219608)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_0nto4"]
+bg_color = Color(0.992157, 0, 0, 0.329412)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_tkpaj"]
 size = Vector2(682.222, 584.444)
@@ -73,9 +79,12 @@ offset_left = -7.0
 offset_top = 690.0
 offset_right = 1289.0
 offset_bottom = 726.0
+theme_override_styles/background = SubResource("StyleBoxFlat_ylipv")
+theme_override_styles/fill = SubResource("StyleBoxFlat_0nto4")
 max_value = 700.0
 step = 1.0
 value = 700.0
+fill_mode = 1
 show_percentage = false
 
 [node name="BossSprite" type="Sprite2D" parent="."]

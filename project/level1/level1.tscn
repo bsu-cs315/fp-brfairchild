@@ -1,24 +1,30 @@
-[gd_scene load_steps=18 format=3 uid="uid://dspldn353hqiq"]
+[gd_scene load_steps=19 format=3 uid="uid://dspldn353hqiq"]
 
 [ext_resource type="Script" path="res://level1/level_1.gd" id="1_hh4fe"]
 [ext_resource type="PackedScene" uid="uid://cpko1hrbwgkfu" path="res://player/player.tscn" id="1_ulg3c"]
 [ext_resource type="PackedScene" uid="uid://bgsvejlihua58" path="res://enemy_type1/enemy_type1.tscn" id="2_ig40w"]
 [ext_resource type="PackedScene" uid="uid://b55qe2p1glsrc" path="res://level1/bullet_pool.tscn" id="3_wfuy1"]
 [ext_resource type="Texture2D" uid="uid://cxlwcbrf4c6vs" path="res://level1/particles.png" id="5_3422w"]
+[ext_resource type="Texture2D" uid="uid://du10sbddkcttf" path="res://level1/Fading_Sky-Sunset_02-1024x512.png" id="6_s7myq"]
 [ext_resource type="PackedScene" uid="uid://0bdfcun5wmab" path="res://enemy_type2/EnemyType2.tscn" id="7_fayyj"]
 [ext_resource type="Shader" path="res://boss/boss_power.gdshader" id="9_tl4ca"]
 [ext_resource type="Texture2D" uid="uid://ddlbexsyyhs33" path="res://boss/Abstract_Noise_037-512x512.png" id="9_vywa6"]
 [ext_resource type="PackedScene" uid="uid://bqqim40xnth12" path="res://boss/boss.tscn" id="11_neqbv"]
 [ext_resource type="AudioStream" uid="uid://c8yunmcclk4hq" path="res://level1/level1_theme.wav" id="12_nagfv"]
 
-[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_nkrag"]
+[sub_resource type="PanoramaSkyMaterial" id="PanoramaSkyMaterial_mism2"]
+panorama = ExtResource("6_s7myq")
 
 [sub_resource type="Sky" id="Sky_347u3"]
-sky_material = SubResource("ProceduralSkyMaterial_nkrag")
+sky_material = SubResource("PanoramaSkyMaterial_mism2")
 
 [sub_resource type="Environment" id="Environment_p6jhb"]
 background_mode = 2
 sky = SubResource("Sky_347u3")
+glow_enabled = true
+glow_normalized = true
+volumetric_fog_enabled = true
+volumetric_fog_albedo = Color(0.0430392, 0.0430392, 0.0430392, 1)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_nhajv"]
 transparency = 1
