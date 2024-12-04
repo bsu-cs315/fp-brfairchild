@@ -11,6 +11,9 @@ This iteration I focused alot of making the bullet pool system working. It has a
 
 This iteration was focused on fixing parts of iteration 1 along with adding some new types of enemies and a timer system to make the levels play out through phases. What still needs to be done is to implement the boss for the stage. One of the issues I have encountered is how to correct the background, currently on my system (EndeavourOS with GNOME) the background is transparent with no real ways to fix this. When I boot into windows it does not sure so I am unsure as to what the issue could be. What I had the most fun with this time was making the title screen look good as well as making a different type of bullet. I am expecting a C on this assessment.
 
+# Iteration 3 Final:
+
+Oh boy this is it, I have had alot of fun with this project, it has turned into multiple different ways to handle a pooling system in godot, I tried 3 different methods, all of which I have noticed have drawbacks and gains. The most challenging part I have faced this time was the bugs that came with trying different pooling systems and how sometimes they did not like to interact with eachother. 
 
 ## Instructions
 
@@ -33,5 +36,4 @@ Try to survive!
   - used Bfxr
 - Images
   - used Photoea and Libresprite.
-
-
+ - [Noise Textures and backgrounds]( https://screamingbrainstudios.itch.io/) [CC0](https://creativecommons.org/public-domain/cc0/)
