@@ -96,12 +96,23 @@ wait_time = 0.8
 
 [node name="SpawnSound" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource("3_gfmen")
-volume_db = -4.685
 max_polyphony = 2
 panning_strength = 0.0
 
 [node name="FinalTImer" type="Timer" parent="."]
-wait_time = 100.0
+wait_time = 500.0
+
+[node name="ProgressBar" type="ProgressBar" parent="."]
+visible = false
+offset_left = 1257.0
+offset_top = -3.0
+offset_right = 1289.0
+offset_bottom = 726.0
+max_value = 700.0
+step = 1.0
+value = 700.0
+fill_mode = 3
+show_percentage = false
 
 [connection signal="area_entered" from="BossSprite/Area2D" to="." method="_on_area_2d_area_entered"]
 [connection signal="timeout" from="Phase1" to="." method="_on_phase_1_timeout"]

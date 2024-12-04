@@ -8,6 +8,7 @@ extends Node2D
 @onready var bullet_timer = $BulletTimer
 @onready var spawn_sound = $SpawnSound
 
+
 var bullet_pool : Array = []
 var active_bullets = []
 var screen_rect : Rect2
@@ -85,6 +86,7 @@ func _on_phase_2_timeout() -> void:
 	$AnimationPlayer.stop()
 	bullet_count = 15
 	can_be_hurt = true
+	$ProgressBar.visible = true
 	$FinalTImer.start()
 
 func _on_phase_1_bullet_timer_timeout() -> void:
@@ -122,11 +124,16 @@ func start_spinning() -> void:
 func _on_final_t_imer_timeout() -> void:
 	queue_free()
 
+func _math_health() -> void:
+	print($ProgressBar.value)
 
+	
 func _on_area_2d_area_entered(area: Area2D) -> void:
 	if can_be_hurt == true:
 		if area.is_in_group("player_bullet"):
 			print(boss_health)
 			boss_health -= 1
+			$ProgressBar.value-=1
+			_math_health()
 			if boss_health <= 0:
 				queue_free()

@@ -20,6 +20,7 @@ config/icon="res://icon.svg"
 window/size/viewport_width=1280
 window/size/viewport_height=720
 window/stretch/mode="viewport"
+window/stretch/aspect="ignore"
 
 [global_group]
 
@@ -65,3 +66,4 @@ focus={
 [rendering]
 
 anti_aliasing/quality/screen_space_aa=1
+anti_aliasing/quality/use_taa=true

@@ -7,8 +7,7 @@ func _ready() -> void:
 	player = find_node_recursive("Player")
 	if player:
 		player.connect("PLAYER_DIED", Callable(self, "_on_player_died"))
-	else: pass
-
+	else: print("No Player Found")
 
 func find_node_recursive(target_name: String, root: Node = null) -> Node:
 	if not root:

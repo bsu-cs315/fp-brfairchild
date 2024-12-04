@@ -38,36 +38,45 @@ func _initialize_bullet_pool():
 
 func _process(delta: float):
 	shoot_timer -= delta
+
+	# Get movement direction
 	var direction = Vector2(
 		Input.get_action_strength("move_right") - Input.get_action_strength("move_left"),
 		Input.get_action_strength("move_down") - Input.get_action_strength("move_up")
 	)
 
+	# Adjust speed for focus mode
 	var current_speed = focus_speed if Input.is_action_pressed("focus") else speed
 	velocity = direction * current_speed
 
+	# Handle sprite rotation based on movement
+	if direction.y != 0:
+		player_sprite.rotation_degrees = direction.y * tilt_amount
+	else:
+		player_sprite.rotation_degrees = lerp(float(player_sprite.rotation_degrees), 0.1, 0.1)
+
+	# Ensure player stays within screen bounds
+	var screen_size = get_viewport_rect().size
+	position.x = clamp(position.x, 0, screen_size.x)
+	position.y = clamp(position.y, 0, screen_size.y)
+
+	move_and_slide()
+
+	# Handle focus input and toggle focus sprites visibility
 	if Input.is_action_pressed("focus"):
 		focus_sprite1.visible = true
 		focus_sprite2.visible = true
 	else:
 		focus_sprite1.visible = false
 		focus_sprite2.visible = false
-	move_and_slide()
 
-	if direction.y != 0:
-		player_sprite.rotation_degrees = direction.y * tilt_amount
-	else:
-		player_sprite.rotation_degrees = lerp(float(player_sprite.rotation_degrees), 0.1, 0.1)
-		
-	var screen_size = get_viewport_rect().size
-	position.x = clamp(position.x, 0, screen_size.x)
-	position.y = clamp(position.y, 0, screen_size.y)
-
+	# Handle shooting input
 	if Input.is_action_pressed("shoot") and shoot_timer <= 0:
 		$Bullet1Sound.play()
 		spawn_bullet()
 		shoot_timer = shoot_delay
-		
+
+	# Recycle off-screen bullets
 	for bullet in active_bullets:
 		if is_bullet_off_screen(bullet):
 			recycle_bullet(bullet)
@@ -88,15 +97,14 @@ func recycle_bullet(bullet: Node2D):
 	active_bullets.erase(bullet)
 	bullet_pool.append(bullet)
 
+# Only recycle bullets if their x position > 1285
 func is_bullet_off_screen(bullet: Node2D) -> bool:
-	var screen_size = get_viewport_rect().size
-	return (bullet.position.x < 0 or bullet.position.x > screen_size.x or
-			bullet.position.y < 0 or bullet.position.y > screen_size.y)
+	return bullet.position.x > 1285
 
 func _on_hitbox_area_entered(area: Area2D) -> void:
 	if area.is_in_group("enemy") and not invulnerable:
 		lives -= 1
-		emit_signal("PLAYER_DIED")
+		PLAYER_DIED.emit()
 		if lives > 0:
 			respawn_at_player_spawn()
 		else:
@@ -123,11 +131,9 @@ func _disable_collision_shape() -> void:
 		collision_shape.set_deferred("disabled", true)
 
 func _enable_collision_shape() -> void:
-	print("Stoppin inv")
+	print("Stopping inv")
 	if collision_shape:
 		collision_shape.set_deferred("disabled", false)
-
-
 
 func _on_god_timer_timeout() -> void:
 	call_deferred("_enable_collision_shape")
