@@ -1,51 +1,57 @@
 extends Node2D
 
 @export var Enemy: PackedScene
-@onready var phase1_spawn_timer = $SpawnTimer
-@onready var phase1_timer = $Phase1Timer
-
 @export var EnemyPhase2: PackedScene
 @export var BulletPhase2: PackedScene
 @export var boss: PackedScene
+@export var player_scene: PackedScene
 
-@onready var player = $Player
+@onready var phase1_spawn_timer = $SpawnTimer
+@onready var phase1_timer = $Phase1Timer
+@onready var cooldown_timer = $CoolDownTImer
+@onready var player_spawn = $PlayerSpawn 
 
 var boss_spawned = false
 var defeated_count: int = 0
+var player_instance: CharacterBody2D = null
 
 func _ready():
 	phase1_timer.start()
+	_respawn_player()
 	spawn_enemies()
 
 func spawn_enemies():
-	if phase1_timer.is_stopped():
-		return
-	
-	var enemy_count = randi() % 6 + 3
-	for i in range(enemy_count):
-		var random_y = randf_range(0, 710)
-		var enemy = Enemy.instantiate()
-		enemy.position = Vector2(1280, random_y)
-		enemy.connect("deleted", Callable(self, "_on_enemy_destroyed"))
-		enemy.connect("defeated", Callable(self, "_on_enemy_defeated"))
-		add_child(enemy)
+	if not phase1_timer.is_stopped():
+		var enemy_count = randi() % 6 + 3
+		for i in range(enemy_count):
+			var random_y = randf_range(0, 710)
+			var enemy = Enemy.instantiate()
+			enemy.position = Vector2(1280, random_y)
+			enemy.connect("deleted", Callable(self, "_on_enemy_destroyed"))
+			enemy.connect("defeated", Callable(self, "_on_enemy_defeated"))
+			add_child(enemy)
 
 func _on_enemy_destroyed():
-	if phase1_timer.is_stopped():
-		return # Your boss scene
-	
 	if get_tree().get_nodes_in_group("enemies").size() == 0:
 		phase1_spawn_timer.start()
 
 func _on_enemy_defeated():
 	defeated_count += 1
 
-func _on_respawn_timer_timeout(): 
-	spawn_enemies()
-
-func _on_phase1_timeout() -> void:
+func _on_phase_1_timer_timeout() -> void:
 	phase1_spawn_timer.stop()
-	$CoolDownTImer.start()
+	cooldown_timer.start()
+
+func _on_spawn_timer_timeout() -> void:
+	if not phase1_timer.is_stopped():
+		var enemy_count = randi() % 6 + 3
+		for i in range(enemy_count):
+			var random_y = randf_range(0, 710)
+			var enemy = Enemy.instantiate()
+			enemy.position = Vector2(1280, random_y)
+			enemy.connect("deleted", Callable(self, "_on_enemy_destroyed"))
+			enemy.connect("defeated", Callable(self, "_on_enemy_defeated"))
+			add_child(enemy)
 
 func _on_cool_down_timer_timeout() -> void:
 	var enemy_instance = EnemyPhase2.instantiate()
@@ -54,7 +60,6 @@ func _on_cool_down_timer_timeout() -> void:
 	add_child(enemy_instance)
 
 	var phase2_bullet = BulletPhase2.instantiate()
-	phase2_bullet.speed = -500
 	add_child(phase2_bullet)
 
 func _start_boss() -> void:
@@ -73,11 +78,18 @@ func _start_boss() -> void:
 	elif boss_spawned == true:
 		return
 
-	
 func _deferred_add_boss():
 	var bosss = boss.instantiate()
 	add_child(bosss)
 	bosss._ready()
+
+func _respawn_player():
+	if player_instance:
+		player_instance.queue_free()
+	player_instance = player_scene.instantiate()
+	player_instance.position = player_spawn.global_position
+	player_instance.set_player_spawn(player_spawn)
+	add_child(player_instance)
 
 func _on_phase2_enemy_defeated():
 	_start_boss()

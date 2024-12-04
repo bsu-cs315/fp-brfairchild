@@ -1,11 +1,10 @@
-[gd_scene load_steps=20 format=3 uid="uid://dspldn353hqiq"]
+[gd_scene load_steps=19 format=3 uid="uid://dspldn353hqiq"]
 
 [ext_resource type="Script" path="res://level1/level_1.gd" id="1_hh4fe"]
 [ext_resource type="PackedScene" uid="uid://cpko1hrbwgkfu" path="res://player/player.tscn" id="1_ulg3c"]
 [ext_resource type="PackedScene" uid="uid://bgsvejlihua58" path="res://enemy_type1/enemy_type1.tscn" id="2_ig40w"]
 [ext_resource type="PackedScene" uid="uid://dlrnr2q2vju5q" path="res://player/player_hud.tscn" id="3_snnct"]
 [ext_resource type="PackedScene" uid="uid://b55qe2p1glsrc" path="res://level1/bullet_pool.tscn" id="3_wfuy1"]
-[ext_resource type="PackedScene" uid="uid://dbaphaj80put8" path="res://enemy_type2/enemy_bullet2.tscn" id="4_xgb3n"]
 [ext_resource type="Texture2D" uid="uid://cxlwcbrf4c6vs" path="res://level1/particles.png" id="5_3422w"]
 [ext_resource type="PackedScene" uid="uid://0bdfcun5wmab" path="res://enemy_type2/EnemyType2.tscn" id="7_fayyj"]
 [ext_resource type="Shader" path="res://boss/boss_power.gdshader" id="9_tl4ca"]
@@ -46,8 +45,9 @@ shader_parameter/texture = ExtResource("9_vywa6")
 script = ExtResource("1_hh4fe")
 Enemy = ExtResource("2_ig40w")
 EnemyPhase2 = ExtResource("7_fayyj")
-BulletPhase2 = ExtResource("4_xgb3n")
+BulletPhase2 = ExtResource("7_fayyj")
 boss = ExtResource("11_neqbv")
+player_scene = ExtResource("1_ulg3c")
 
 [node name="PlayerHUD" parent="." instance=ExtResource("3_snnct")]
 
@@ -113,9 +113,6 @@ wait_time = 40.0
 one_shot = true
 autostart = true
 
-[node name="Player" parent="." instance=ExtResource("1_ulg3c")]
-position = Vector2(187, 353)
-
 [node name="CoolDownTImer" type="Timer" parent="."]
 wait_time = 4.0
 one_shot = true
@@ -127,6 +124,8 @@ stream = ExtResource("12_nagfv")
 autoplay = true
 
 [connection signal="timeout" from="SpawnTimer" to="." method="_on_respawn_timer_timeout"]
+[connection signal="timeout" from="SpawnTimer" to="." method="_on_spawn_timer_timeout"]
+[connection signal="timeout" from="Phase1Timer" to="." method="_on_phase_1_timer_timeout"]
 [connection signal="timeout" from="Phase1Timer" to="." method="_on_phase1_timeout"]
 [connection signal="timeout" from="Phase2Timer" to="." method="_on_phase_2_timer_timeout"]
 [connection signal="timeout" from="CoolDownTImer" to="." method="_on_cool_down_timer_timeout"]

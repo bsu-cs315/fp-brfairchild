@@ -12,12 +12,14 @@ extends CharacterBody2D
 @onready var focus_sprite2 = $PlayerFocusTexture1
 @onready var player_sprite = $AnimatedSprite2D
 @onready var collision_shape = $CollisionShape2D
+@onready var invTime = $GodTimer
 
 var shoot_timer := 0.0
-var bullet_pool: Array[Node2D] = [] 
+var bullet_pool: Array[Node2D] = []
 var active_bullets: Array[Node2D] = []
 var lives := 3
 var invulnerable := false
+var player_spawn: Node2D = null
 
 signal PLAYER_DIED
 
@@ -26,15 +28,13 @@ func _ready():
 	focus_sprite2.visible = false
 	_initialize_bullet_pool()
 
-
 func _initialize_bullet_pool():
-	for i in bullet_pool_size:
+	for i in range(bullet_pool_size):
 		var bullet = bullet_scene.instantiate()
 		bullet.visible = false
 		bullet_pool.append(bullet)
 		get_parent().call_deferred("add_child", bullet)
 		bullet.connect("bullet_hit", Callable(self, "_on_bullet_collided"))
-
 
 func _process(delta: float):
 	shoot_timer -= delta
@@ -72,7 +72,6 @@ func _process(delta: float):
 		if is_bullet_off_screen(bullet):
 			recycle_bullet(bullet)
 
-
 func spawn_bullet():
 	if bullet_pool.size() > 0:
 		var bullet = bullet_pool.pop_back()
@@ -80,10 +79,8 @@ func spawn_bullet():
 		bullet.visible = true
 		active_bullets.append(bullet)
 
-
 func _on_bullet_collided(bullet: Node2D):
 	recycle_bullet(bullet)
-
 
 func recycle_bullet(bullet: Node2D):
 	bullet.visible = false
@@ -91,31 +88,47 @@ func recycle_bullet(bullet: Node2D):
 	active_bullets.erase(bullet)
 	bullet_pool.append(bullet)
 
-
 func is_bullet_off_screen(bullet: Node2D) -> bool:
 	var screen_size = get_viewport_rect().size
 	return (bullet.position.x < 0 or bullet.position.x > screen_size.x or
 			bullet.position.y < 0 or bullet.position.y > screen_size.y)
 
-
 func _on_hitbox_area_entered(area: Area2D) -> void:
 	if area.is_in_group("enemy") and not invulnerable:
 		lives -= 1
-		PLAYER_DIED.emit()
-		if lives <= 0:
-			call_deferred("_change_scene")
+		emit_signal("PLAYER_DIED")
+		if lives > 0:
+			respawn_at_player_spawn()
 		else:
-			activate_invulnerability()
+			queue_free()
 
+func respawn_at_player_spawn():
+	if player_spawn:
+		global_position = player_spawn.global_position
+		activate_invulnerability()
+	else:
+		print("Error: PlayerSpawn node not found!")
+
+func set_player_spawn(spawn: Node2D):
+	player_spawn = spawn
 
 func activate_invulnerability() -> void:
 	invulnerable = true
-	collision_shape.set_deferred("disabled", true)
-	await get_tree().create_timer(2.0).timeout
-	collision_shape.set_deferred("disabled", false)
+	invTime.start()
+	print("Starting inv")
+	call_deferred("_disable_collision_shape")
+
+func _disable_collision_shape() -> void:
+	if collision_shape:
+		collision_shape.set_deferred("disabled", true)
+
+func _enable_collision_shape() -> void:
+	print("Stoppin inv")
+	if collision_shape:
+		collision_shape.set_deferred("disabled", false)
+
+
+
+func _on_god_timer_timeout() -> void:
+	call_deferred("_enable_collision_shape")
 	invulnerable = false
-
-
-func _change_scene():
-	get_tree().change_scene_to_file("res://title/title.tscn")
-	queue_free()

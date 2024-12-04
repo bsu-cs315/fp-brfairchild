@@ -16,7 +16,7 @@ var spin_speed = 1.0
 var speed = 200
 var max_bullets_in_pool = 250
 var can_be_hurt = false
-var boss_health = 1000
+var boss_health = 700
 
 func _ready() -> void:
 	$AnimationPlayer.play("phase1")
