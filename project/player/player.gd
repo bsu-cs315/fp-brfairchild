@@ -5,7 +5,7 @@ extends CharacterBody2D
 @export var tilt_amount := 10.0
 @export var bullet_scene: PackedScene
 @export var bullet_offset := 80.0
-@export var shoot_delay := 0.05
+@export var shoot_delay := 0.5  # Adjust the shooting delay here
 @export var bullet_pool_size := 45
 
 @onready var focus_sprite1 = $PlayerFocusTexture2
@@ -37,7 +37,7 @@ func _initialize_bullet_pool():
 		bullet.connect("bullet_hit", Callable(self, "_on_bullet_collided"))
 
 func _process(delta: float):
-	shoot_timer -= delta
+	shoot_timer -= delta  # Decrease shoot_timer each frame
 
 	# Get movement direction
 	var direction = Vector2(
@@ -70,13 +70,13 @@ func _process(delta: float):
 		focus_sprite1.visible = false
 		focus_sprite2.visible = false
 
-	# Handle shooting input
+	# Handle shooting input with delay
 	if Input.is_action_pressed("shoot") and shoot_timer <= 0:
 		$Bullet1Sound.play()
 		spawn_bullet()
-		shoot_timer = shoot_delay
+		shoot_timer = shoot_delay  # Reset the shoot timer
 
-	# Recycle off-screen bullets
+	# Recycle off-screen bullets before shooting new ones
 	for bullet in active_bullets:
 		if is_bullet_off_screen(bullet):
 			recycle_bullet(bullet)
@@ -93,13 +93,13 @@ func _on_bullet_collided(bullet: Node2D):
 
 func recycle_bullet(bullet: Node2D):
 	bullet.visible = false
-	bullet.position = Vector2(-1000, -1000)
+	bullet.position = Vector2(-1000, -1000)  # Move the bullet off-screen
 	active_bullets.erase(bullet)
 	bullet_pool.append(bullet)
 
-# Only recycle bullets if their x position > 1285
 func is_bullet_off_screen(bullet: Node2D) -> bool:
-	return bullet.position.x > 1285
+	# Check if the bullet's position is off the right side of the screen
+	return bullet.position.x > 1285  # Adjust this value depending on your screen width
 
 func _on_hitbox_area_entered(area: Area2D) -> void:
 	if area.is_in_group("enemy") and not invulnerable:

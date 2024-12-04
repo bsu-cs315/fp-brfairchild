@@ -131,7 +131,6 @@ func _math_health() -> void:
 func _on_area_2d_area_entered(area: Area2D) -> void:
 	if can_be_hurt == true:
 		if area.is_in_group("player_bullet"):
-			print(boss_health)
 			boss_health -= 1
 			$ProgressBar.value-=1
 			_math_health()
