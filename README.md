@@ -40,3 +40,5 @@ Try to survive!
 - Images
   - used Photoea and Libresprite.
  - [Noise Textures and backgrounds]( https://screamingbrainstudios.itch.io/) [CC0](https://creativecommons.org/public-domain/cc0/)
+- [Arrow Texture](https://www.sda.nagoya-cu.ac.jp/sa08m13/image.html)
+  - States free use, commerical/non-commercial. editiing allowed.
