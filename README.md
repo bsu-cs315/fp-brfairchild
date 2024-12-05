@@ -28,8 +28,8 @@ Try to survive!
 
 ## How to play
 
-- Arrow Keys to move left/right/up/down
-- Z to shoot
+- Arrow Keys / WASD to move left/right/up/down
+- Z / Space to shoot (Space will also focus)
 - LShift to focus (slows down players movement as well as shows a texture where your hurtbox is)
 
 
