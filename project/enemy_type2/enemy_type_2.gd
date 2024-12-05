@@ -18,6 +18,7 @@ func _on_spawn_1_timer_timeout() -> void:
 		get_parent().add_child(bullet_instance)
 		get_parent().add_child(bullet_instance2)
 		
+		
 func _on_spawn_2_timer_timeout() -> void:
 	var bullet_instance3 = bullet_scene.instantiate()
 	var bullet_instance4 = bullet_scene.instantiate()
@@ -25,6 +26,7 @@ func _on_spawn_2_timer_timeout() -> void:
 	bullet_instance4.position = $Spawn3b.position
 	get_parent().add_child(bullet_instance3)
 	get_parent().add_child(bullet_instance4)
+
 
 func _on_spawn_3_timer_timeout() -> void:
 	var bullet_instance5 = bullet_scene.instantiate()
@@ -34,12 +36,14 @@ func _on_spawn_3_timer_timeout() -> void:
 	get_parent().add_child(bullet_instance5)
 	get_parent().add_child(bullet_instance6)
 
+
 func _on_area_2_de_1_area_entered(area: Area2D) -> void:
 	if area.is_in_group("player_bullet"):
 		health1 -= 1
 		if health1 <= 0:
 			emit_signal("defeatedenm2")
 			queue_free()
+
 
 func _on_area_2_de_2_area_entered(area: Area2D) -> void:
 	if area.is_in_group("player_bullet"):

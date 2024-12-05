@@ -1,19 +1,21 @@
-[gd_scene load_steps=19 format=3 uid="uid://dspldn353hqiq"]
+[gd_scene load_steps=24 format=3 uid="uid://dspldn353hqiq"]
 
 [ext_resource type="Script" path="res://level1/level_1.gd" id="1_hh4fe"]
 [ext_resource type="PackedScene" uid="uid://cpko1hrbwgkfu" path="res://player/player.tscn" id="1_ulg3c"]
 [ext_resource type="PackedScene" uid="uid://bgsvejlihua58" path="res://enemy_type1/enemy_type1.tscn" id="2_ig40w"]
 [ext_resource type="PackedScene" uid="uid://b55qe2p1glsrc" path="res://level1/bullet_pool.tscn" id="3_wfuy1"]
 [ext_resource type="Texture2D" uid="uid://cxlwcbrf4c6vs" path="res://level1/particles.png" id="5_3422w"]
-[ext_resource type="Texture2D" uid="uid://du10sbddkcttf" path="res://level1/Fading_Sky-Sunset_02-1024x512.png" id="6_s7myq"]
+[ext_resource type="Texture2D" uid="uid://b88ba6p1tv1cd" path="res://level1/Gradient_Sky-Sunset_02-1024x512.png" id="6_rpw8i"]
 [ext_resource type="PackedScene" uid="uid://0bdfcun5wmab" path="res://enemy_type2/EnemyType2.tscn" id="7_fayyj"]
 [ext_resource type="Shader" path="res://boss/boss_power.gdshader" id="9_tl4ca"]
 [ext_resource type="Texture2D" uid="uid://ddlbexsyyhs33" path="res://boss/Abstract_Noise_037-512x512.png" id="9_vywa6"]
 [ext_resource type="PackedScene" uid="uid://bqqim40xnth12" path="res://boss/boss.tscn" id="11_neqbv"]
+[ext_resource type="AudioStream" uid="uid://cl7cklsd7udwx" path="res://player/player_death_sound.wav" id="12_h0l54"]
 [ext_resource type="AudioStream" uid="uid://c8yunmcclk4hq" path="res://level1/level1_theme.wav" id="12_nagfv"]
+[ext_resource type="AudioStream" uid="uid://j4t32fkrvce2" path="res://boss/boss_death_sound.wav" id="13_13cx3"]
 
 [sub_resource type="PanoramaSkyMaterial" id="PanoramaSkyMaterial_mism2"]
-panorama = ExtResource("6_s7myq")
+panorama = ExtResource("6_rpw8i")
 
 [sub_resource type="Sky" id="Sky_347u3"]
 sky_material = SubResource("PanoramaSkyMaterial_mism2")
@@ -23,6 +25,9 @@ background_mode = 2
 sky = SubResource("Sky_347u3")
 glow_enabled = true
 glow_normalized = true
+fog_mode = 1
+fog_light_color = Color(0, 0.580065, 0.889863, 1)
+fog_density = 0.0
 volumetric_fog_enabled = true
 volumetric_fog_albedo = Color(0.0430392, 0.0430392, 0.0430392, 1)
 
@@ -46,6 +51,42 @@ shader_parameter/panning_speed = 0.2
 shader_parameter/transparency = 0.14
 shader_parameter/texture = ExtResource("9_vywa6")
 
+[sub_resource type="Animation" id="Animation_hqnxa"]
+resource_name = "try_again_button_anm"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("LoseButton/RetryButton:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(514, 725), Vector2(514, 317)]
+}
+
+[sub_resource type="Animation" id="Animation_mrtcg"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("LoseButton/RetryButton:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(514, 725)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_yqkqb"]
+_data = {
+"RESET": SubResource("Animation_mrtcg"),
+"try_again_button_anm": SubResource("Animation_hqnxa")
+}
+
 [node name="Level1" type="Node2D"]
 script = ExtResource("1_hh4fe")
 Enemy = ExtResource("2_ig40w")
@@ -56,6 +97,7 @@ player_scene = ExtResource("1_ulg3c")
 
 [node name="Background" type="Camera3D" parent="."]
 environment = SubResource("Environment_p6jhb")
+current = true
 
 [node name="CPUParticles3D" type="CPUParticles3D" parent="Background"]
 transform = Transform3D(1, 0, 0, 0, 0.49297, -0.870046, 0, 0.870046, 0.49297, 2.58683, 0, -2.16)
@@ -126,9 +168,36 @@ scale = Vector2(3.08008, 1.81641)
 stream = ExtResource("12_nagfv")
 autoplay = true
 
+[node name="LoseButton" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_yqkqb")
+}
+
+[node name="RetryButton" type="Button" parent="LoseButton"]
+offset_left = 514.0
+offset_top = 725.0
+offset_right = 803.0
+offset_bottom = 802.0
+theme_override_font_sizes/font_size = 50
+text = "Try Again"
+
+[node name="WinTimer" type="Timer" parent="."]
+wait_time = 3.0
+one_shot = true
+
+[node name="PlayerDeathSound" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("12_h0l54")
+
+[node name="BossDeathSound" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("13_13cx3")
+volume_db = -4.0
+bus = &"Boss"
+
 [connection signal="timeout" from="SpawnTimer" to="." method="_on_respawn_timer_timeout"]
 [connection signal="timeout" from="SpawnTimer" to="." method="_on_spawn_timer_timeout"]
-[connection signal="timeout" from="Phase1Timer" to="." method="_on_phase_1_timer_timeout"]
 [connection signal="timeout" from="Phase1Timer" to="." method="_on_phase1_timeout"]
+[connection signal="timeout" from="Phase1Timer" to="." method="_on_phase_1_timer_timeout"]
 [connection signal="timeout" from="Phase2Timer" to="." method="_on_phase_2_timer_timeout"]
 [connection signal="timeout" from="CoolDownTImer" to="." method="_on_cool_down_timer_timeout"]
+[connection signal="pressed" from="LoseButton/RetryButton" to="." method="_on_retry_button_pressed"]
+[connection signal="timeout" from="WinTimer" to="." method="_on_win_timer_timeout"]

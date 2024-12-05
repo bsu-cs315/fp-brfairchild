@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=3 uid="uid://cpko1hrbwgkfu"]
+[gd_scene load_steps=20 format=3 uid="uid://cpko1hrbwgkfu"]
 
 [ext_resource type="Texture2D" uid="uid://blkhxfl0hn5pf" path="res://player/player_spritesheet.png" id="1_2r30b"]
 [ext_resource type="Script" path="res://player/player.gd" id="1_tcj71"]
@@ -94,11 +94,13 @@ radius = 12.0
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_iphwt"]
 
+[sub_resource type="Gradient" id="Gradient_vyxic"]
+colors = PackedColorArray(0.980392, 0, 1, 1, 1, 0.431373, 1, 0.32549)
+
 [node name="Player" type="CharacterBody2D" groups=["player_sprite"]]
 script = ExtResource("1_tcj71")
 bullet_scene = ExtResource("2_n7013")
 shoot_delay = 0.05
-bullet_pool_size = 100
 
 [node name="PlayerHUD" parent="." instance=ExtResource("7_hohct")]
 
@@ -141,6 +143,25 @@ shape = SubResource("CircleShape2D_iphwt")
 [node name="GodTimer" type="Timer" parent="."]
 wait_time = 2.0
 one_shot = true
+
+[node name="PlayerDeathFx" type="CPUParticles2D" parent="."]
+emitting = false
+amount = 50
+lifetime = 2.0
+one_shot = true
+explosiveness = 1.0
+emission_shape = 1
+emission_sphere_radius = 1.0
+gravity = Vector2(0, 0)
+angular_velocity_max = 720.0
+linear_accel_max = 71.29
+radial_accel_max = 6.2
+tangential_accel_max = 100.0
+damping_max = 23.055
+scale_amount_max = 3.0
+color_ramp = SubResource("Gradient_vyxic")
+hue_variation_min = 1.0
+hue_variation_max = 1.0
 
 [connection signal="area_entered" from="Hitbox" to="." method="_on_hitbox_area_entered"]
 [connection signal="timeout" from="GodTimer" to="." method="_on_god_timer_timeout"]

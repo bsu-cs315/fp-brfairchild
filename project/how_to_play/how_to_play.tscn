@@ -1,0 +1,49 @@
+[gd_scene load_steps=4 format=3 uid="uid://bsy07oxsfynub"]
+
+[ext_resource type="Texture2D" uid="uid://d380bwc2845ib" path="res://title/title_background_texture.png" id="1_fvifa"]
+[ext_resource type="Script" path="res://how_to_play/how_to_play.gd" id="1_rckk5"]
+[ext_resource type="PackedScene" uid="uid://cpko1hrbwgkfu" path="res://player/player.tscn" id="2_jo0c3"]
+
+[node name="HowToPlay" type="Node2D"]
+script = ExtResource("1_rckk5")
+
+[node name="TitleBackgroundTexture" type="Sprite2D" parent="."]
+z_index = -20
+position = Vector2(640, 360)
+texture = ExtResource("1_fvifa")
+
+[node name="Player" parent="." instance=ExtResource("2_jo0c3")]
+position = Vector2(586, 449)
+
+[node name="Button" type="Button" parent="."]
+offset_top = 644.0
+offset_right = 173.0
+offset_bottom = 721.0
+theme_override_font_sizes/font_size = 50
+text = "Return"
+
+[node name="Movement" type="Label" parent="."]
+offset_top = 59.0
+offset_right = 216.0
+offset_bottom = 82.0
+rotation = -0.0523599
+theme_override_font_sizes/font_size = 35
+text = "Arrow Keys / WSAD to move"
+
+[node name="Shooting" type="Label" parent="."]
+offset_top = 105.0
+offset_right = 357.0
+offset_bottom = 154.0
+rotation = -0.0523599
+theme_override_font_sizes/font_size = 35
+text = "Z / Spacebar to shoot"
+
+[node name="Focus" type="Label" parent="."]
+offset_top = 152.0
+offset_right = 705.0
+offset_bottom = 201.0
+rotation = -0.0523599
+theme_override_font_sizes/font_size = 35
+text = "LShift to slow down and show your hitbox"
+
+[connection signal="pressed" from="Button" to="." method="_on_button_pressed"]

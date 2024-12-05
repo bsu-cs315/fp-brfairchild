@@ -65,9 +65,18 @@ offset_left = -6.0
 offset_top = 488.0
 offset_right = 257.0
 offset_bottom = 565.0
-rotation = -0.055658
+rotation = -0.0523599
 theme = SubResource("Theme_ecjw4")
 text = "Play Game"
+
+[node name="HowToPlayButton" type="Button" parent="."]
+offset_left = -2.0
+offset_top = 571.0
+offset_right = 261.0
+offset_bottom = 648.0
+rotation = -0.0523599
+theme_override_font_sizes/font_size = 50
+text = "How To Play"
 
 [node name="ArrowsLeft" type="TextureRect" parent="."]
 material = SubResource("ShaderMaterial_k6fvq")
@@ -98,3 +107,4 @@ autoplay = true
 panning_strength = 0.0
 
 [connection signal="pressed" from="Button" to="." method="_on_Button_pressed"]
+[connection signal="pressed" from="HowToPlayButton" to="." method="_on_how_to_play_button_pressed"]

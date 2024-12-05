@@ -2,8 +2,8 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://desdbbqvx4aso"
-path.s3tc="res://.godot/imported/Bricks_17-512x512.png-b30f6945893b6481ff102bb4d3f9fc66.s3tc.ctex"
+uid="uid://b88ba6p1tv1cd"
+path.s3tc="res://.godot/imported/Gradient_Sky-Sunset_02-1024x512.png-42c5423cea4e2a29a25990747e9c1732.s3tc.ctex"
 metadata={
 "imported_formats": ["s3tc_bptc"],
 "vram_texture": true
@@ -11,8 +11,8 @@ metadata={
 
 [deps]
 
-source_file="res://level1/Bricks_17-512x512.png"
-dest_files=["res://.godot/imported/Bricks_17-512x512.png-b30f6945893b6481ff102bb4d3f9fc66.s3tc.ctex"]
+source_file="res://level1/Gradient_Sky-Sunset_02-1024x512.png"
+dest_files=["res://.godot/imported/Gradient_Sky-Sunset_02-1024x512.png-42c5423cea4e2a29a25990747e9c1732.s3tc.ctex"]
 
 [params]
 

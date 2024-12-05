@@ -19,6 +19,9 @@ var max_bullets_in_pool = 250
 var can_be_hurt = false
 var boss_health = 700
 
+signal BOSS_DEFEATED
+
+
 func _ready() -> void:
 	$AnimationPlayer.play("phase1")
 	spin_speed = 0
@@ -26,6 +29,7 @@ func _ready() -> void:
 	bullet_timer.start(0.8)
 	screen_rect = Rect2(Vector2.ZERO, get_viewport().size)
 	preload_bullet_pool()
+
 
 func preload_bullet_pool() -> void:
 	for i in range(max_bullets_in_pool):
@@ -46,7 +50,8 @@ func spawn_bullets_in_circle() -> void:
 		var bullet = get_inactive_bullet()
 
 		if bullet:
-			bullet.position = spawn_loc.position + Vector2(cos_angle * radius, sin_angle * radius)
+			bullet.position = spawn_loc.position \
+			+ Vector2(cos_angle * radius, sin_angle * radius)
 			bullet.rotation = angle
 			bullet.visible = true
 			bullet.set_meta("initial_rotation", angle)
@@ -62,15 +67,18 @@ func spawn_bullets_in_circle() -> void:
 		bullet.set_meta("spinning", true)
 		bullet.set_meta("moved", false)
 
+
 func get_inactive_bullet() -> Node2D:
 	if bullet_pool.size() > 0:
 		return bullet_pool.pop_front()
 	return null
 
+
 func deactivate_bullet(bullet: Node2D) -> void:
 	bullet.visible = false
 	active_bullets.erase(bullet)
 	bullet_pool.push_back(bullet)
+
 
 func _on_phase_1_timeout() -> void:
 	phase_2_timer.start()
@@ -80,6 +88,7 @@ func _on_phase_1_timeout() -> void:
 	speed = 250
 	start_spinning()
 
+
 func _on_phase_2_timeout() -> void:
 	$AnimationPlayer.stop()
 	bullet_count = 15
@@ -87,8 +96,10 @@ func _on_phase_2_timeout() -> void:
 	$ProgressBar.visible = true
 	$FinalTImer.start()
 
+
 func _on_phase_1_bullet_timer_timeout() -> void:
 	spawn_bullets_in_circle()
+
 
 func _process(delta: float) -> void:
 	for bullet in active_bullets:
@@ -100,7 +111,8 @@ func _process(delta: float) -> void:
 			if spinning and not moved:
 				var spin_amount = spin_speed * delta
 				bullet.rotation += spin_amount
-				bullet.position += Vector2(cos(bullet.rotation) * speed * delta, sin(bullet.rotation) * speed * delta)
+				bullet.position += Vector2(cos(bullet.rotation) \
+				* speed * delta, sin(bullet.rotation) * speed * delta)
 
 				if bullet.rotation >= initial_rotation + PI:
 					bullet.set_meta("spinning", false)
@@ -111,16 +123,20 @@ func _process(delta: float) -> void:
 					
 			if not spinning and moved:
 				var random_direction = bullet.get_meta("random_direction", 0)
-				bullet.position += Vector2(cos(random_direction) * speed * delta, sin(random_direction) * speed * delta)
+				bullet.position += Vector2(cos(random_direction) * speed \
+				* delta, sin(random_direction) * speed * delta)
 
 			if !screen_rect.has_point(bullet.position):
 				deactivate_bullet(bullet)
 
+
 func start_spinning() -> void:
 	spin_speed = 2.0
 
+
 func _on_final_t_imer_timeout() -> void:
 	queue_free()
+
 
 func _math_health() -> void:
 	print($ProgressBar.value)
@@ -135,6 +151,7 @@ func _on_area_2d_area_entered(area: Area2D) -> void:
 			if boss_health <= 0:
 				boss_death()
 				
+				
 func boss_death() -> void:
-	call_deferred("queue_free")
-	get_tree().change_scene_to_file("res://win/win.tscn")
+	BOSS_DEFEATED.emit()
+	queue_free()
