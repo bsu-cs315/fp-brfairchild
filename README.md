@@ -2,6 +2,9 @@
 #### Group Members
 - Brayden Fairchild
 
+#### Expected Grade
+- C
+
 
 # Iteration 1:
 
