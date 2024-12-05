@@ -16,7 +16,7 @@ This iteration was focused on fixing parts of iteration 1 along with adding some
 
 # Iteration 3 Final:
 
-Oh boy this is it, I have had alot of fun with this project, it has turned into multiple different ways to handle a pooling system in godot, I tried 3 different methods, all of which I have noticed have drawbacks and gains. The most challenging part I have faced this time was the bugs that came with trying different pooling systems and how sometimes they did not like to interact with eachother. 
+Oh boy this is it, I have had alot of fun with this project, it has turned into multiple different ways to handle a pooling system in godot, I tried 3 different methods, all of which I have noticed have drawbacks and gains. The most challenging part I have faced this time was the bugs that came with trying different pooling systems and how sometimes they did not like to interact with eachother. One of the tools I have used this iteration was the [GDShaders](https://docs.godotengine.org/en/stable/tutorials/shaders/index.html) this was used to create a cool pattern once the boss gets spawned in. I hope you have as much fun playing it as I have had making it. 
 
 ## Instructions
 
